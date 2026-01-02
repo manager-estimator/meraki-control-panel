@@ -1,0 +1,61 @@
+
+**Título:** Exportar ficheros reales (Banco + SQL Obras) para definir contrato de datos financiero
+**Asignada a:** Carolina
+**Prioridad:** Alta
+**Fecha límite:** Próximo Viernes
+**Descripción:**
+
+**Objetivo:** Antes de estandarizar los Excel del Módulo Financiero del Meraki Control Panel, necesitamos revisar **los ficheros reales** exportados desde los bancos y desde SQL Obras para definir el contrato de datos final.
+
+### A) Exportaciones requeridas (SIN MODIFICAR)
+
+1. **Banco – Extractos / Movimientos**
+   * Exportar **1 archivo por cada cuenta bancaria** (últimos 60–90 días si es posible).
+   * Formato: **Excel (.xlsx) o CSV** tal cual lo descarga el banco.
+   * Guardar en: `Dropbox/Meraki/00_Data_Inputs/Finanzas/01_Bancos/RAW/`
+   * Nombre: `BANK_<Banco>_<CuentaAlias>_<YYYY-MM-DD>_to_<YYYY-MM-DD>_RAW.xlsx`
+
+2. **SQL Obras – Facturas Emitidas (Clientes)**
+   * Exportar **acumulado año en curso** + (si se puede) **año anterior**.
+   * Guardar en: `Dropbox/Meraki/00_Data_Inputs/Finanzas/02_ERP_SQLObras/RAW/`
+   * Nombre: `SQLObras_FacturasEmitidas_<YYYY>_RAW.xlsx`
+
+3. **SQL Obras – Facturas Recibidas (Proveedores + GASTOS GENERALES)**
+   * Exportar acumulado año en curso + año anterior.
+   * **IMPORTANTE**: Asegurarse de que este archivo incluye también los **Gastos de Estructura** (Alquiler, Luz, Software, Gestoría...).
+   * *Nota para Carolina*: Indicar en la tarea si estos gastos van a un "Proyecto 0", "Proyecto Estructura" o si se quedan con el campo Proyecto vacío.
+   * Nombre: `SQLObras_FacturasRecibidas_<YYYY>_RAW.xlsx`
+
+4. **SQL Obras – Pagos / Cobros (si existe módulo)**
+   * Exportar listado de cobros y pagos registrados (si SQL Obras lo permite).
+   * Nombre: `SQLObras_Cobros_<YYYY>_RAW.xlsx` y `SQLObras_Pagos_<YYYY>_RAW.xlsx`
+
+5. **SQL Obras – Proyectos/Obras (Maestro)**
+   * Exportar listado de obras con código/nombre/estado/cliente.
+   * Nombre: `SQLObras_ObrasMaestro_<YYYY>_RAW.xlsx`
+
+6. **SQL Obras – Proveedores y Clientes (Maestros)**
+   * Exportar maestros.
+   * Nombre: `SQLObras_ProveedoresMaestro_<YYYY>_RAW.xlsx` y `SQLObras_ClientesMaestro_<YYYY>_RAW.xlsx`
+
+---
+### **NUEVO: Para Fase 2 (Rentabilidad de Obras)**
+(Si es posible sacarlo ya, adelantamos trabajo)
+
+7. **SQL Obras – Presupuesto Desglosado (Partidas)**
+   * Necesitamos ver el detalle de partidas (Mediciones/Presupuesto) de una obra ejemplo.
+   * Nombre: `SQLObras_PresupuestoDetalle_<EjemploObra>_RAW.xlsx`
+
+8. **SQL Obras – Imputación Horas / Partes de Trabajo**
+   * Si usáis el módulo de personal: exportar horas imputadas a proyectos.
+   * Nombre: `SQLObras_HorasPersonal_<YYYY>_RAW.xlsx`
+---
+
+### B) Notas importantes
+* **NO renombrar columnas**, no borrar columnas, no limpiar datos.
+* Si hay columnas “raras”, perfecto: las evaluaremos.
+* El objetivo es revisar estructura y calidad del dato.
+
+### C) Entregable
+* Subir todos los archivos a las rutas indicadas en Dropbox.
+* Avisar en Asana cuando estén subidos + indicar qué bancos/cuentas se incluyeron.
