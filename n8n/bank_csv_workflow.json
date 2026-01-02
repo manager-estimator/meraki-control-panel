@@ -1,0 +1,125 @@
+{
+    "name": "Bank CSV Import to Supabase",
+    "nodes": [
+        {
+            "parameters": {
+                "pollInterval": "10m"
+            },
+            "name": "Google Drive Trigger",
+            "type": "n8n-nodes-base.googleDriveTrigger",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ],
+            "credentials": {
+                "googleDriveOAuth2": {
+                    "id": "YOUR_GDRIVE_ID",
+                    "name": "Google Drive account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "name": "Spreadsheet File",
+            "type": "n8n-nodes-base.spreadsheetFile",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "table": "transactions",
+                "columns": "date, description, amount, category",
+                "schema": "public"
+            },
+            "name": "Supabase Writer",
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                850,
+                300
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "YOUR_SUPABASE_ID",
+                    "name": "Supabase account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "keepOnlySet": true,
+                "values": {
+                    "string": [
+                        {
+                            "name": "date",
+                            "value": "={{ $json.Date }}"
+                        },
+                        {
+                            "name": "description",
+                            "value": "={{ $json.Description }}"
+                        },
+                        {
+                            "name": "category",
+                            "value": "={{ $json.Category || 'General' }}"
+                        }
+                    ],
+                    "number": [
+                        {
+                            "name": "amount",
+                            "value": "={{ parseFloat($json.Amount) }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "name": "Map Columns",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 2,
+            "position": [
+                650,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Google Drive Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Spreadsheet File",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Spreadsheet File": {
+            "main": [
+                [
+                    {
+                        "node": "Map Columns",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Map Columns": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase Writer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

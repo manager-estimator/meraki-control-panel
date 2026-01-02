@@ -1,0 +1,105 @@
+{
+    "name": "Santander Excel Import to Supabase",
+    "nodes": [
+        {
+            "parameters": {
+                "pollInterval": "10m"
+            },
+            "name": "Google Drive Trigger",
+            "type": "n8n-nodes-base.googleDriveTrigger",
+            "typeVersion": 1,
+            "position": [
+                240,
+                300
+            ],
+            "credentials": {
+                "googleDriveOAuth2": {
+                    "id": "YOUR_GDRIVE_ID",
+                    "name": "Google Drive account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {
+                    "headerRow": 8,
+                    "readAsString": false
+                }
+            },
+            "name": "Read Santander Excel",
+            "type": "n8n-nodes-base.spreadsheetFile",
+            "typeVersion": 1,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// Clean Santander currency format: \"-4.043,18 EUR\" -> -4043.18\nreturn items.map(item => {\n  const row = item.json;\n  let amountStr = row['Importe'] || \"0\";\n  \n  // Remove ' EUR' and spaces\n  amountStr = amountStr.toString().replace(/ EUR/g, '').trim();\n  // Remove thousands separator (.)\n  amountStr = amountStr.replace(/\\./g, '');\n  // Replace decimal separator (,) with (.)\n  amountStr = amountStr.replace(',', '.');\n  \n  // Parse date from DD/MM/YYYY to YYYY-MM-DD\n  const [day, month, year] = (row['Fecha Operación'] || \"\").split('/');\n  const isoDate = `${year}-${month}-${day}`;\n\n  return {\n    json: {\n      date: isoDate,\n      description: row['Concepto'],\n      amount: parseFloat(amountStr),\n      currency: 'EUR',\n      category: 'General',\n      source: 'Santander Excel'\n    }\n  }\n});"
+            },
+            "name": "Clean & Format Data",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                680,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "table": "transactions",
+                "columns": "date, description, amount, category",
+                "schema": "public"
+            },
+            "name": "Supabase Writer",
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                900,
+                300
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "YOUR_SUPABASE_ID",
+                    "name": "Supabase account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Google Drive Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Read Santander Excel",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Santander Excel": {
+            "main": [
+                [
+                    {
+                        "node": "Clean & Format Data",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Clean & Format Data": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase Writer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
