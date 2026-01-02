@@ -1,0 +1,86 @@
+{
+    "name": "Santander Email to Supabase",
+    "nodes": [
+        {
+            "parameters": {
+                "pollInterval": "10m"
+            },
+            "name": "Gmail Trigger",
+            "type": "n8n-nodes-base.gmailTrigger",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ],
+            "credentials": {
+                "gmailOAuth2": {
+                    "id": "YOUR_GMAIL_CREDENTIAL_ID",
+                    "name": "Gmail account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "prompt": "Analyze the email body and extract the transaction details.\nReturn a JSON with:\n- amount (number, negative for expenses)\n- description (string, merchant or concept)\n- date (YYYY-MM-DD)\n- category (guess based on description: 'materials', 'services', 'taxes', 'other')\n\nEmail Body:\n{{$json.snippet}}",
+                "options": {}
+            },
+            "name": "AI Parser (Gemini/OpenAI)",
+            "type": "n8n-nodes-base.openAi",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "YOUR_AI_CREDENTIAL_ID",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "table": "transactions",
+                "columns": "amount, description, date, category, source",
+                "schema": "public"
+            },
+            "name": "Supabase Writer",
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                650,
+                300
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "YOUR_SUPABASE_CREDENTIAL_ID",
+                    "name": "Supabase account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "Gmail Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "AI Parser (Gemini/OpenAI)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI Parser (Gemini/OpenAI)": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase Writer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

@@ -1,0 +1,132 @@
+{
+    "name": "Santander (via GoCardless) to Supabase",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "hours",
+                            "hours": 12
+                        }
+                    ]
+                }
+            },
+            "name": "Schedule",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "getTransactions",
+                "accountId": "YOUR_ACCOUNT_ID_FROM_GOCARDLESS",
+                "returnAll": true
+            },
+            "name": "GoCardless (Bank)",
+            "type": "n8n-nodes-base.nordigen",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ],
+            "credentials": {
+                "nordigenApi": {
+                    "id": "YOUR_GOCARDLESS_CREDENTIAL_ID",
+                    "name": "GoCardless account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "table": "transactions",
+                "columns": "amount, date, description, category, bank_source_id",
+                "schema": "public"
+            },
+            "name": "Supabase Writer",
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                850,
+                300
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "YOUR_SUPABASE_CREDENTIAL_ID",
+                    "name": "Supabase account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "keepOnlySet": true,
+                "values": {
+                    "string": [
+                        {
+                            "name": "amount",
+                            "value": "={{ $json.transactionAmount.amount }}"
+                        },
+                        {
+                            "name": "date",
+                            "value": "={{ $json.bookingDate }}"
+                        },
+                        {
+                            "name": "description",
+                            "value": "={{ $json.remittanceInformationUnstructured || $json.remittanceInformationStructured }}"
+                        },
+                        {
+                            "name": "bank_source_id",
+                            "value": "={{ $json.transactionId }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "name": "Format Data",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 2,
+            "position": [
+                650,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Schedule": {
+            "main": [
+                [
+                    {
+                        "node": "GoCardless (Bank)",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "GoCardless (Bank)": {
+            "main": [
+                [
+                    {
+                        "node": "Format Data",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Format Data": {
+            "main": [
+                [
+                    {
+                        "node": "Supabase Writer",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
