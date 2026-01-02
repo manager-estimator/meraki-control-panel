@@ -3,15 +3,27 @@ import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus } from "lucide-react"
+import { Plus, AlertTriangle } from "lucide-react"
+
+export const dynamic = "force-dynamic"
 
 export default async function ProjectsPage() {
   const supabase = await createClient()
   
-  const { data: projects } = await supabase
+  const { data: projects, error } = await supabase
     .from('projects')
     .select('*')
     .order('created_at', { ascending: false })
+
+  if (error) {
+    return (
+       <div className="p-4 text-red-500 border border-red-500 rounded bg-red-950/20">
+          <h2 className="font-bold flex gap-2 items-center"><AlertTriangle /> Error cargando obras</h2>
+          <p>{error.message}</p>
+          <p className="text-sm mt-2 text-zinc-400">Verifica las variables de entorno en Vercel.</p>
+       </div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4">
