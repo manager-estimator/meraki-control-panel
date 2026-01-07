@@ -1,0 +1,30 @@
+
+**Título:** Definición Estándar de Control de Obras (Jéssica)
+**Asignada a:** Jessica
+**Prioridad:** Alta
+
+**El Fin (Contexto):**
+Para que el Dashboard muestre la salud real de las obras, necesitamos normalizar cómo medimos el tiempo y el avance. No queremos cambiar tu forma de trabajar, sino conectar tus herramientas al panel central.
+
+### 1. El Cronograma "Maestro"
+Necesitamos un formato estándar para todas las obras nuevas.
+*   **Pregunta**: ¿Qué herramienta usas hoy para el Gantt? (MS Project, Excel, Instagantt, Planner, Monday?).
+*   **Acción**: Sube un ejemplo del formato "ideal" que te gustaría usar siempre.
+    *   *Requisito técnico*: Debe poder exportarse a CSV, XML o Excel (no vale solo PDF).
+
+### 2. La Doble Verdad de Producción (Crítico)
+Para el financiero necesitamos distinguir dos datos que tú controlas:
+*   **A) % Avance Físico Real**: "La pared está al 50% construida". (Verdad de Obra).
+*   **B) % Certificado (Facturado)**: "Le hemos cobrado el 80% al cliente". (Verdad Financiera).
+*   **Pregunta**: ¿Dónde registras hoy estos dos datos? ¿En el Presto/Excel de certificaciones?
+    *   *Objetivo*: Que el sistema detecte automáticamente cuando **Hemos gastado más de lo que hemos cobrado** (Riesgo).
+
+### 3. Registro de Incidencias (Bloqueos)
+Queremos que el Dashboard avise a Pablo cuando una obra está parada por causa externa.
+*   **Acción**: Definir una lista simple de motivos de retraso para estandarizar (ej: "Lluvia", "Falta Material", "Cambio Cliente", "Licencia").
+*   **Formato**: ¿Te sirve un formulario simple en el móvil o prefieres un Excel compartido?
+
+### 4. Entregables para la Prueba
+Por favor, prepara en la carpeta `Dropbox/Meraki/00_Data_Inputs/Obras/RAW/`:
+1.  Un **Cronograma completo** de una obra activa (Formato editable).
+2.  Un **Presto/Excel de Certificación** reciente (donde se vea Importe Presupuestado vs Importe Ejecutado).
