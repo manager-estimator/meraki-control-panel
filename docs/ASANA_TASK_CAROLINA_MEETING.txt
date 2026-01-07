@@ -1,0 +1,42 @@
+
+**Título:** Preparación Reunión Técnica: Mapa Completo de Tesorería y Datos
+**Asignada a:** Carolina
+**Prioridad:** Alta (Para revisar en reunión del fin de semana)
+
+**Objetivo:** Para que el "Panel de Control" muestre la **Caja Real**, necesitamos mapear no solo las facturas, sino *todo* lo que saca dinero de la cuenta. En nuestra reunión revisaremos estos puntos:
+
+### A) Prueba de Fuego: ERP → Excel
+*   **Acción**: Quiero ver en directo cómo exportamos a Excel desde SQL Obras.
+*   **Pregunta**: ¿Podemos sacar un listado con un clic? ¿O hay que pedirlo a soporte? (Clave para automatizar).
+
+### B) Lo que falta (El "Dinero Invisible")
+Aparte de las Facturas de Clientes y Proveedores, necesitamos listar estos pagos para que el sistema no falle en las previsiones:
+
+**7. Deuda y Financiación (Banco)**
+*   Listado de préstamos, pólizas de crédito o leasings activos.
+*   Necesitamos el **Cuadro de Amortización** (Excel): ¿Cuánto pagamos de cuota cada mes y qué día vence?
+
+**8. Impuestos y Fiscalidad (Hacienda)**
+*   Calendario aproximado de pagos fijos:
+    *   IVA (Modelo 303) - ¿Cuánto solemos pagar trimestralmente aprox?
+    *   Seguros Sociales (Coste Empresa) - ¿Qué día se carga en cuenta?
+    *   IRPF / I.S.
+
+**9. Gastos de Estructura (Fijos)**
+*   Listado de gastos recurrentes que NO entran por factura de obra (o si entran, cómo los filtramos):
+    *   Alquiler Oficina, Luz, Agua, Internet.
+    *   Nóminas de Estructura (Administración/Dirección).
+    *   Seguros Responsabilidad Civil / Vehículos.
+
+---
+
+### C) Archivos a preparar (Raw Data)
+*(La lista técnica que ya teníamos)*
+
+1.  **Bancos**: Extracto últimos 3 meses (.xlsx).
+2.  **Facturas Emitidas**: Año en curso (.xlsx).
+3.  **Facturas Recibidas**: Año en curso (.xlsx).
+4.  **Maestro de Obras**: Lista de códigos de proyecto activos.
+
+**Nota para la reunión**:
+No hace falta tenerlo todo perfecto, pero sí saber **dónde está cada dato** y si podemos sacarlo a Excel fácilmente.

@@ -1,0 +1,78 @@
+# Tareas de Asana: Recopilación de Datos por Departamentos
+
+Copia cada bloque y crea una tarea individual para cada responsable.
+Hemos añadido el "Por qué" (El Fin) para que entiendan el valor del nuevo sistema.
+
+---
+
+## 1. Tarea para: ALEXIS (Comercial)
+**Título:** 🤝 Dashboard Comercial: Revisión de tu Flujo Actual (Pipeline)
+**Prioridad:** Media
+**Fecha límite:** (Sugerido: Miércoles)
+
+**El Fin (Contexto):**
+Alexis, estamos construyendo el nuevo **"Control Panel Comercial"** para que tengas una visión en tiempo real de tus ventas: qué ofertas están calientes, cuáles se han estancado y tu previsión de cierre, sin que tengas que calcularlo tú manualmente cada vez. Queremos que el sistema te avise automáticamente cuando un cliente lleva X días sin contestar.
+
+**Lo que necesito hoy (Diagnóstico):**
+Para montar esto a tu medida, necesito ver exactamente **cómo lo llevas hoy**:
+1.  **Tu Pipeline Real**: ¿Dónde apuntas las oportunidades?
+    *   Si es un **Excel**: Por favor, adjúntalo aquí (versión actual).
+    *   Si es un **Proyecto de Asana**: Pega el link.
+    *   Si es **SQL Obras (CRM)**: Saca un pantallazo o export de lo que usas.
+2.  **Tus Metas**: ¿Tienes definido un objetivo numérico de venta mensual/trimestral para este año? Si existe el documento, compártelo.
+
+**Objetivo:** Adaptar el software a tu forma de trabajar, no al revés.
+
+---
+
+## 2. Tarea para: JESSICA (Jefa de Obras)
+**Título:** 🏗️ Panel de Operaciones: Unificación de Cronogramas e Incidencias
+**Prioridad:** Media
+**Fecha límite:** (Sugerido: Miércoles)
+
+**El Fin (Contexto):**
+Jessica, el objetivo es darte un **"Panel de Mando de Obras"** donde veas de un vistazo el estado real de todos los proyectos activos, las desviaciones de tiempo y las incidencias críticas, para que no tengas que bucear en mil emails o Excels dispersos. Queremos centralizar la "salud" de las obras.
+
+**Lo que necesito hoy (Diagnóstico):**
+Necesito entender tus herramientas actuales de control:
+1.  **Cronogramas**: ¿Qué usas para planificar? (Project, Excel, Gantt...).
+    *   Por favor, sube un **ejemplo real completo** de una obra en curso (el archivo fuente).
+2.  **Control de Incidencias/Retrasos**: Cuando una obra se para por lluvia o falta de material, ¿dónde queda registrado hoy? (¿Bitácora en Excel, Notas de Asana, Email...?).
+    *   Adjunta un ejemplo de ese registro.
+
+**Objetivo:** Que el sistema lea tus planificaciones y te alerte solo de lo importante.
+
+---
+
+## 3. Tarea para: NICOLÁS (Estudios/Presupuestos)
+**Título:** 💰 Inteligencia de Compras: Base de Precios y Comparativos
+**Prioridad:** Alta
+**Fecha límite:** (Sugerido: Miércoles)
+
+**El Fin (Contexto):**
+Nicolás, queremos potenciar tu área creando una **base de datos de costes históricos** y automatizar la comparación de proveedores. El fin es que el sistema te diga: *"Ojo, este precio de hormigón es un 10% más caro que en la obra anterior"* y te ayude a defender el margen.
+
+**Lo que necesito hoy (Diagnóstico):**
+1.  **Comparativos de Proveedores**: Comparte un **Excel real** de un comparativo reciente (donde cruzas varias ofertas de proveedores). Quiero ver qué columnas y fórmulas usas.
+2.  **Base de Precios**: ¿Cómo estructuras el presupuesto?
+    *   Sube un ejemplo de **Presupuesto Desglosado** (Partidas/Capítulos) tal cual sale de tu software (Presto, SQL Obras, Excel...).
+
+**Objetivo:** Automatizar la "picada de datos" para que dediques más tiempo a negociar y menos al Excel.
+
+---
+
+## 4. Tarea para: LAURA (Branding)
+**Título:** 🎨 Dashboard Marketing: Flujo de Producción e Impacto
+**Prioridad:** Media
+**Fecha límite:** (Sugerido: Miércoles)
+
+**El Fin (Contexto):**
+Laura, vamos a conectar Marketing con Ventas. Queremos un panel donde veas no solo "qué hay que diseñar", sino **qué impacto real** está teniendo tu trabajo en las ventas (Leads generados, dossiers más efectivos, etc.), y agilizar las rondas de aprobación internas.
+
+**Lo que necesito hoy (Diagnóstico):**
+1.  **Gestión de Pedidos**: ¿Dónde llevas la lista de "cosas por hacer" (renders, dossiers, posts)? (Tabla de Asana, Excel, Trello...).
+    *   Comparte una captura o el archivo.
+2.  **Reportes de Resultados**: ¿Tienes algún informe (PDF/Excel) de métricas de redes o web que uses actualmente?
+    *   Sube un ejemplo reciente.
+
+**Objetivo:** Eliminar correos de "cómo va lo mío" y visibilizar el valor de tu área en cifras.
