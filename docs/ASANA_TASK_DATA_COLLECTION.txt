@@ -1,121 +1,241 @@
-**Título:** PROTOCOLO DE DATOS SEMANAL: El "Sistema Nervioso Financiero" de Meraki (Instrucciones Completas)
-**Asignada a:** Carolina
-**Frecuencia:** Semanal (Viernes antes de cierre o Lunes antes de las 10:00)
+TÍTULO: PROTOCOLO DE DATOS SEMANAL — El “Sistema Nervioso Financiero” de Meraki (Instrucciones Completas)
+
+Asignada a: Carolina
+Frecuencia: Semanal
+Entrega: Viernes antes de cierre (ideal) o Lunes antes de las 10:00 (máximo)
+Ubicación (Buzón Digital): Meraki_Control_Panel / INPUTS
 
 ---
 
-### 1. CONTEXTO ESTRATÉGICO: ¿POR QUÉ HACEMOS ESTO?
-Carolina, este protocolo es la pieza más importante para la gestión de la empresa. No se trata de "cumplir con un reporte", sino de alimentar el cerebro financiero de Meraki.
+1) CONTEXTO ESTRATÉGICO: ¿POR QUÉ HACEMOS ESTO?
 
-**La Diferencia entre "Contabilidad" y "Finanzas":**
-*   **Contabilidad (Lo que haces habitualmente):** Registrar el pasado para Hacienda.
-*   **Finanzas (Lo que necesitamos aquí):** Usar los datos para predecir el futuro y tomar decisiones HOY.
+Carolina, este protocolo es la pieza más importante para la gestión financiera de la empresa. No se trata de “cumplir con un reporte”, sino de alimentar el cerebro financiero de Meraki.
 
-**Causa y Efecto:**
-1.  **Si falta el Extracto Bancario:** El sistema no puede puntear. No sabemos si una factura está pagada realmente o no.
-2.  **Si filtras solo "Pendientes":** Perdemos la historia. No podemos predecir el comportamiento de pago de un cliente si no vemos cuándo pagó las anteriores.
-3.  **Si omites los "Compromisos" (Pedidos):** Nos creemos ricos. Vemos dinero en el banco, pero olvidamos que ya está gastado en un pedido de mármol que llega la semana que viene.
-4.  **Si no clasificas los Fijos (Aplazables):** En una crisis, no sabremos qué grifo cerrar primero.
+La diferencia entre “Contabilidad” y “Finanzas”
+*   Contabilidad (lo habitual): Registrar el pasado para Hacienda.
+*   Finanzas (lo que necesitamos aquí): Usar los datos para predecir el futuro y tomar decisiones HOY.
 
-**Tu Misión:** Ser la guardiana de la "Verdad del Dato". Dato crudo, sin maquillar, puntual y completo.
+Causa y efecto (por qué cada archivo es imprescindible)
+1.  Si falta el Extracto Bancario RAW: El sistema no puede puntear/conciliar. No sabemos si una factura está pagada realmente o no.
+2.  Si filtras solo “Pendientes”: Perdemos la historia. No podemos ver patrones reales (por ejemplo, cómo paga un cliente cuando ya pagó antes).
+3.  Si omites los “Compromisos” (pedidos / confirming / certificaciones): Nos creemos ricos. Vemos dinero en el banco, pero olvidamos que parte ya está comprometida.
+4.  Si no clasificas los fijos (aplazables/inaplazables): En una crisis no sabremos qué grifo cerrar primero ni dónde duele menos.
+5.  Si no tenemos MAESTROS (obras/terceros/bancos): El sistema se rompe por cambios naturales: obra nueva, proveedor nuevo, cuenta nueva. Es la base para que nada quede “huérfano”.
 
----
+Tu misión
 
-### 2. INSTRUCCIONES DETALLADAS DE EJECUCIÓN
-
-El proceso consta de alimentar 5 carpetas en nuestro "Buzón Digital" (`Meraki_Control_Panel / INPUTS`).
-
-#### 📁 CARPETA 00: MAESTROS (La Base del Sistema)
-*Solo actualizar cuando haya cambios (Alta cliente, nueva obra, cambio de banco).*
-**Ruta:** `.../INPUTS/00_Maestros`
-
-*   **A. Listado de Proyectos:** Excel con ID Obra, Nombre Oficial y Estado.
-    *   *Por qué:* Para que ningun coste se quede "huérfano" sin obra asignada.
-*   **B. Listado de Terceros:** Clientes y Proveedores (ID, Nombre, NIF).
-*   **C. Cuentas Bancarias:** Relación de IBANs y Alias internos.
-
-
-#### 📁 CARPETA 01: TESORERÍA (El Oxígeno)
-*Esta es la carpeta crítica semanal.*
-**Ruta:** `.../INPUTS/01_Tesoreria`
-
-*   **D. Extracto Bancario RAW (Imprescindible)**
-    *   **Qué es:** La exportación del extracto de movimientos de la web del banco.
-    *   **Formato:** CSV o Excel (lo más bruto posible).
-    *   **Columnas:** Fecha, Concepto, Importe, Saldo.
-    *   **Por qué:** Para la **Conciliación Automática**. El sistema buscará "Importe exacto" y "Fecha cercana" para casar con tus facturas.
-    *   **Nombre:** `BANCOS_Movimientos_[NombreBanco]_YYYY-MM-DD.csv`
-
-*   **E. Informe de Vencimientos (Listado TOTAL)**
-    *   **Qué es:** El listado de TODAS las facturas del año en curso.
-    *   **Regla de Oro:** **NO FILTRAR** por "Pendiente". Deben salir las COBRADAS, las PAGADAS, las PENDIENTES y las DEVUELTAS.
-    *   **Por qué:** Necesitamos ver "el pasado" para conciliar y "el futuro" para prevenir.
-    *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
-
-*   **F. Forecast y Compromisos (Vuestro Excel de Previsión)**
-    *   **Qué es:** El Excel donde integráis vuestra inteligencia humana.
-    *   **Pestaña 1: Previsión Cobros:**
-        *   Debéis indicar la **PROBABILIDAD** (Alta/Media/Baja) de cada cobro.
-        *   *Efecto:* Esto permite al sistema calcular 3 Escenarios (Pesimista, Realista, Optimista).
-    *   **Pestaña 2: COMPROMISOS (Shadow Debt):**
-        *   Aquí van los Confirming firmados, los Pedidos de Materiales aceptados o las Certificaciones aprobadas que *aún no tienen factura*.
-        *   *Por qué:* Es deuda real, aunque no sea contable todavía. Resta capacidad de caja.
-    *   **Nombre:** `TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx`
-
-*   **G. Pool Bancario (Foto Fija)**
-    *   Saldos a fecha de corte + Límites de Pólizas actualizados.
-
-
-#### 📁 CARPETA 02: RENTABILIDAD (El Semáforo de Obras)
-**Ruta:** `.../INPUTS/02_Rentabilidad`
-
-*   **H. Informe de Análisis Económico**
-    *   **Nivel de Detalle:** Por CAPÍTULO (Demoliciones, Estructura...).
-    *   **Datos Clave:** Coste Previsto (Presupuesto) vs Coste Producido (Real) vs Coste Facturado.
-    *   **Por qué:** Para detectar desviaciones "en caliente". Si esperamos a la factura, el dinero ya se ha ido. El "Coste Producido" (albaranes/partes) es la alerta temprana.
-    *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
-
-
-#### 📁 CARPETA 03: ESTRUCTURA (Gastos Generales)
-**Ruta:** `.../INPUTS/03_Estructura`
-
-*   **I. Previsión de Pagos Fijos (Catálogo Detallado)**
-    *   **Qué es:** El Excel maestro de los pagos que "no avisan" (Impuestos, Nóminas, Seguros, Alquileres).
-    *   **Mejora Crítica:** Añadir columna **"CATEGORÍA"** con dos valores:
-        1.  **INAPLAZABLE:** (Nóminas, Seguros Sociales, Hacienda, Préstamos). Lo que para la empresa si no se paga.
-        2.  **APLAZABLE:** (Alquiler oficina, Renting coches, Suscripciones, Formación). Lo que se puede negociar en "Escenario de Guerra".
-    *   **Por qué:** En los escenarios de estrés, el sistema sugerirá retener los "Aplazables" automáticamente.
-    *   **Nombre:** `FINANZAS_PagosFijos_2026.xlsx`
-
-
-#### 📁 CARPETA 04: PATRIMONIO (La Hucha)
-**Ruta:** `.../INPUTS/04_Patrimonio`
-
-*   **J. Cuadro de Inversiones**
-    *   Activos financieros, plazos fijos.
-    *   Datos: Saldo Actual, Rentabilidad %, Disponibilidad (Liquidez).
-
+Ser la guardiana de la Verdad del Dato: dato crudo, sin maquillar, puntual y completo.
+Regla de oro: “Dato crudo, dato bueno”.
 
 ---
 
-### 3. PROTOCOLO DE CALIDAD (El "Check" Final)
-*Antes de cerrar la tarea, dedica 30 segundos a verificar esto:*
+2) INSTRUCCIONES DETALLADAS DE EJECUCIÓN
 
-1.  **Regla del Cut-Off (Corte):** Los archivos deben contener datos hasta el **Domingo a las 23:59** anterior.
-2.  **Sin Filtros:** Revisa que el Excel de Vencimientos tiene miles de filas (Pagadas + Pendientes) y no solo unas pocas.
-3.  **Fecha Correcta:** Los nombres de archivo tienen la fecha de extracción.
-4.  **Extractos Completos:** ¿Has bajado el CSV de TODAS las cuentas? (A veces se olvida la cuenta de la póliza o la tarjeta).
+El proceso consiste en alimentar 5 carpetas dentro del Buzón Digital (Meraki_Control_Panel / INPUTS).
+IMPORTANTE: no cambies los nombres de carpetas ni la estructura: el sistema depende de ello.
 
 ---
 
-### 4. ANEXO TÉCNICO (Configuración de Informes ERP)
-*Si tienes que pedir a informática que configure los listados, pídeles exactamente esto:*
+📁 CARPETA 00: MAESTROS (La Base del Sistema)
 
-**A. Para el Informe de Vencimientos:**
-*   NO AGRUPAR por cliente. Necesitamos lista plana.
-*   **Identificador Único:** Columna con "Serie + Nº Factura" (Para evitar duplicados).
-*   **Tipo Documento:** Columna que distinga "Factura" vs "Abono/Rectificativa" (Vital para los signos).
-*   **Estado:** Columna con "Cobrado", "Pagado", "Pendiente", "Devuelto".
+Solo actualizar cuando haya cambios (alta cliente, nueva obra, cambio de banco, etc.)
+Ruta: Meraki_Control_Panel / INPUTS / 00_Maestros
 
-**B. Para el Análisis Económico:**
-*   Debe incluir las columnas de CÓDIGO (ID Proyecto, ID Capítulo). No vale solo con el Nombre, porque los nombres cambian (tildes, espacios). El Código es ley.
+A) Listado de Proyectos (Excel)
+*   Qué es: Excel con ID Obra, Nombre Oficial y Estado (activo, en estudio, cerrado, etc.).
+*   Por qué: Para que ningún coste, factura o movimiento se quede “huérfano” sin obra asignada.
+
+B) Listado de Terceros (Excel)
+*   Qué es: Clientes y Proveedores (mínimo: ID, Nombre, NIF si aplica).
+*   Por qué: Para mapear documentos con la misma lógica siempre (evitar duplicados por pequeñas variaciones de nombre).
+
+C) Cuentas Bancarias (Excel)
+*   Qué es: Relación de cuentas: IBAN y alias interno (cómo las llamamos en Meraki).
+*   Por qué: Para mapear extractos y evitar que la cuenta “X” del banco aparezca como otra distinta en el sistema.
+
+(Nombres de archivo — recomendación):
+*   MAESTROS_Proyectos.xlsx
+*   MAESTROS_Terceros.xlsx
+*   MAESTROS_CuentasBancarias.xlsx
+
+---
+
+📁 CARPETA 01: TESORERÍA (El Oxígeno)
+
+Esta es la carpeta crítica semanal.
+Ruta: Meraki_Control_Panel / INPUTS / 01_Tesoreria
+
+D) Extracto Bancario RAW (Imprescindible)
+*   Qué es: Exportación del extracto de movimientos desde la web del banco (lo más bruto posible).
+*   Formato: CSV o Excel (preferible CSV si el banco lo permite).
+*   Columnas mínimas: Fecha, Concepto/Descripción, Importe, Saldo.
+*   Si el banco ofrece “ID movimiento / referencia / contrapartida”, inclúyelo: ayuda a conciliar mejor.
+*   Por qué: Para la Conciliación Automática: el sistema buscará “importe exacto” + “fecha cercana” + “texto/concepto” para casar con facturas.
+*   Si no casa automático, el usuario podrá casar manualmente a través del conector/operativa del panel.
+*   Regla: Debe incluir TODAS las cuentas operativas (incluye pólizas, cuentas secundarias, tarjeta/empresa si hay).
+*   Nombre:
+BANCOS_Movimientos_[NombreBancoCuenta]_YYYY-MM-DD.csv
+(o .xlsx si no hay CSV)
+
+Ejemplo: BANCOS_Movimientos_Santander_Principal_2026-01-11.csv
+
+---
+
+E) Informe de Vencimientos (Listado TOTAL)
+*   Qué es: Listado de TODAS las facturas del año en curso (o rango amplio).
+*   Regla de oro: NO FILTRAR solo por “Pendiente”. Deben salir:
+    *   COBRADAS
+    *   PAGADAS
+    *   PENDIENTES
+    *   DEVUELTAS
+*   Por qué: Necesitamos ver “el pasado” para conciliar y “el futuro” para prevenir y forecast.
+*   Nombre:
+TESORERIA_Vencimientos_YYYY-MM-DD.xlsx
+
+Nota: si está pagada, “Importe Pendiente = 0” y eso es correcto. El sistema lo necesita.
+
+---
+
+F) Forecast y Compromisos (Vuestro Excel de Previsión)
+*   Qué es: El Excel donde integráis inteligencia humana (probabilidades, cobros previstos, compromisos no facturados).
+*   Por qué: El ERP y el banco dan “realidad” y “contabilidad”; este archivo aporta “criterio humano” y permite escenarios.
+
+Pestaña 1: Previsión Cobros
+*   Debéis indicar PROBABILIDAD por cobro: Alta / Media / Baja.
+*   Efecto: Esto permite al sistema calcular escenarios (Pesimista / Realista / Optimista) en base a probabilidad y timings.
+
+Pestaña 2: Compromisos (Shadow Debt)
+*   Aquí van los compromisos reales aún sin factura:
+    *   Confirming firmados
+    *   Pedidos de materiales aceptados
+    *   Certificaciones aprobadas
+    *   Señales/anticipos acordados
+    *   Cualquier pago “ya comprometido” aunque no exista factura aún
+*   Por qué: Es deuda real aunque no sea contable todavía. Reduce capacidad de caja y evita autoengaños.
+*   Nombre:
+TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx
+
+---
+
+G) Pool Bancario (Foto fija) — Solo si hay cambios
+*   Qué es: Saldos a fecha de corte + límites de pólizas actualizados.
+*   Por qué: Foto de situación: liquidez, capacidad de financiación, margen real.
+*   Nombre recomendado:
+FINANZAS_PoolBancario.xlsx
+
+---
+
+📁 CARPETA 02: RENTABILIDAD (El Semáforo de Obras)
+
+Ruta: Meraki_Control_Panel / INPUTS / 02_Rentabilidad
+
+H) Informe de Análisis Económico (por CAPÍTULO)
+*   Qué es: Informe de salud de obras, al nivel “CAPÍTULO” (demoliciones, estructura, instalaciones, carpintería…).
+*   Nivel de detalle: CAPÍTULO (no solo resumen general).
+*   Datos clave:
+    *   Coste Previsto (Presupuesto)
+    *   Coste Producido (Real / albaranes / partes / avance real)
+    *   Coste Facturado (si existe en el informe)
+    *   % Desviación
+*   Por qué: Para detectar desviaciones “en caliente”. Si esperamos a la factura, el dinero ya se ha ido.
+*   El Coste Producido es la alerta temprana.
+*   Nombre:
+OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx
+
+---
+
+📁 CARPETA 03: ESTRUCTURA (Gastos Generales)
+
+Ruta: Meraki_Control_Panel / INPUTS / 03_Estructura
+
+I) Previsión de Pagos Fijos (Catálogo detallado)
+*   Qué es: Excel maestro de pagos que “no avisan” (impuestos, nóminas, seguros, alquileres, préstamos, softwares, gestoría…).
+*   Mejora crítica: Añadir columna CATEGORÍA con dos valores:
+    1.  INAPLAZABLE: Nóminas, SS, Hacienda, préstamos, seguros críticos… lo que para la empresa si no se paga.
+    2.  APLAZABLE: alquiler oficina, renting, suscripciones, formación… lo negociable en “escenario guerra”.
+*   Por qué: En escenarios de estrés, el sistema (y la dirección) podrá decidir qué recortar/negociar primero.
+*   Nombre:
+FINANZAS_PagosFijos_2026.xlsx
+
+(Muy recomendable) Campos mínimos dentro del Excel
+*   Concepto
+*   Proveedor/organismo (si aplica)
+*   Fecha prevista de cargo (día/semana)
+*   Importe previsto
+*   Periodicidad (mensual, trimestral, anual)
+*   Categoría (Aplazable / Inaplazable)
+*   Notas (si hay regla especial: “se paga el día 20”, “varía según nómina”, etc.)
+
+---
+
+📁 CARPETA 04: PATRIMONIO (La Hucha)
+
+Ruta: Meraki_Control_Panel / INPUTS / 04_Patrimonio
+
+J) Cuadro de Inversiones
+*   Qué es: Activos financieros, plazos fijos, fondos, cuentas de ahorro de la empresa.
+*   Datos recomendados:
+    *   Saldo actual
+    *   Rentabilidad %
+    *   Disponibilidad / liquidez (cuándo puede retirarse)
+    *   Entidad
+*   Nombre:
+FINANZAS_Inversiones.xlsx
+
+---
+
+3) PROTOCOLO DE CALIDAD (El “Check” Final)
+
+Antes de cerrar la tarea semanal, dedica 30 segundos a verificar esto:
+1.  Regla del Cut-Off (Corte): Los archivos deben contener datos hasta el domingo a las 23:59 anterior (semana cerrada).
+2.  Sin filtros: Verifica que Vencimientos tiene muchas filas (pagadas + pendientes + cobradas + devueltas) y no solo unas pocas.
+3.  Fecha correcta en nombres: Los archivos tienen la fecha de extracción en el nombre (YYYY-MM-DD).
+4.  Extractos completos: ¿Has bajado el CSV de todas las cuentas? (Se suele olvidar cuenta de póliza o tarjeta).
+5.  Movimientos RAW reales: No valen capturas ni PDFs si se puede exportar CSV/Excel. Debe ser exportación descargable.
+6.  Coherencia básica: En Vencimientos, una factura pagada debe tener pendiente 0 (normal). Si ves cosas raras, avisa.
+
+---
+
+4) ANEXO TÉCNICO (Configuración de Informes ERP)
+
+Si tienes que pedir a informática que configure los listados, pídeles exactamente esto:
+
+A) Para el Informe de Vencimientos
+*   NO AGRUPAR por cliente: necesitamos lista plana.
+*   FILTRO: Estado = Todos (Cobrados, Pagados, Pendientes, Devueltos).
+*   Identificador único: Columna con “Serie + Nº Factura” (para evitar duplicados).
+*   Tipo documento: Columna que distinga “Factura” vs “Abono/Rectificativa” (vital para los signos).
+*   Imprescindible:
+    *   Fecha Emisión
+    *   Fecha Vencimiento
+    *   Importe Total
+    *   Importe Pendiente
+*   Necesario:
+    *   Cliente/Proveedor
+    *   Nº Factura
+    *   Cód. Obra
+    *   Estado (Cobrado / Pagado / Pendiente / Devuelto)
+
+B) Para el Análisis Económico
+*   Debe incluir columnas de CÓDIGO:
+    *   ID Proyecto / ID Obra
+    *   ID Capítulo
+*   No vale solo con el “Nombre” porque los nombres cambian (tildes, espacios, variantes).
+*   El código es ley.
+*   Imprescindible:
+    *   Coste Previsto vs Coste Producido
+    *   % Desviación
+*   Recomendado si el ERP lo ofrece:
+    *   Coste Facturado (para ver gap entre producido y facturado)
+
+---
+
+Nota final (criterio de éxito)
+
+Este protocolo funciona si cada lunes Dirección puede responder sin dudas:
+*   ¿Cuánta caja real hay? (banco)
+*   ¿Qué está cobrado/pagado vs pendiente? (vencimientos + conciliación)
+*   ¿Qué está comprometido aunque aún no exista factura? (compromisos)
+*   ¿Qué pasa si los cobros se retrasan? (probabilidad/escenarios)
+*   ¿Qué obras se están desviando hoy, no dentro de 2 meses? (rentabilidad por capítulos)
+*   ¿Qué pagos fijos nos ahogan y cuáles podemos negociar? (aplazable/inaplazable)
