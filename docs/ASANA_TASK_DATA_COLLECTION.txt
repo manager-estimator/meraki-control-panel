@@ -1,51 +1,59 @@
-✅ TAREA 1 — TESORERÍA SEMANAL (Caja + Conciliación + Compromisos)
+✅ VERSIÓN MEJORADA — LISTA PARA COPIAR/PEGAR (estructura técnica + manual de archivos)
+
+**Ruta raíz (Buzón Digital):** `Meraki_Control_Panel / INPUTS`
+
+**Estructura de carpetas (crear si no existen):**
+*   `00_Maestros`
+*   `01_Tesoreria`
+*   `02_Rentabilidad`
+*   `03_Estructura`
+*   `04_Patrimonio`
+*   `05_Presupuesto_y_Escenarios` ✅ (nueva para Resultado)
+
+**Formato permitido (sistema):** .xlsx y .csv
+**Evitar:** PDF, capturas, fotos, links sin archivo.
+
+---
+
+### ✅ TAREA 1 — TESORERÍA SEMANAL (Caja + Conciliación + Compromisos)
 
 **Título:** PROTOCOLO DE DATOS SEMANAL — TESORERÍA: El “Sistema Nervioso de Caja” de Meraki (Instrucciones Completas)
-
 **Asignada a:** Carolina
 **Frecuencia:** Semanal
 **Entrega:** Viernes antes de cierre (ideal) o Lunes antes de las 10:00 (máximo)
 
 **Objetivo:**
 Alimentar el sistema con dato crudo para que Dirección pueda:
-1. Ver caja real,
-2. Conciliar (puntear) facturas con banco,
-3. Estimar forecast semanal y escenarios de liquidez,
-4. No olvidar compromisos sin factura (shadow debt).
+1. Ver caja real
+2. Conciliar (puntear) facturas con banco
+3. Estimar forecast semanal y escenarios de liquidez
+4. No olvidar compromisos sin factura (shadow debt)
 
 **Regla de Oro:**
 “Dato crudo, dato bueno.”
 No maquilles, no resumas, no filtres. El sistema necesita la lista completa.
 
-**Causa y Efecto (lo que NO puede fallar):**
-1. Si falta el Extracto Bancario RAW: no hay punteo/conciliación.
-2. Si filtras solo “Pendientes” en Vencimientos: pierdes historia → peor previsión y peor control.
-3. Si omites Compromisos: parece que hay caja, pero parte ya está gastada.
-4. Si olvidas una cuenta bancaria (póliza/tarjeta/segunda cuenta): la caja real estará mal.
-
----
-
-### Carpetas a alimentar (Buzón Digital)
-**Ruta raíz:** `Meraki_Control_Panel / INPUTS`
+**Cut-off oficial (regla técnica):**
+Los archivos deben contener datos hasta el domingo 23:59 anterior.
+*   **Bancos:** movimientos lunes 00:00 → domingo 23:59 (semana completa).
+*   **Vencimientos:** año en curso o rango amplio (mín. 12 meses + futuro).
 
 ---
 
 #### 📁 00_Maestros (solo si hay cambios)
 **Ruta:** `.../INPUTS/00_Maestros`
-Actualizar solo cuando haya cambios (alta cliente, nueva obra, cambio banco, etc.)
 
 **A) Listado de Proyectos (Excel)**
 *   **Contenido:** ID Obra, Nombre Oficial, Estado.
-*   **Por qué:** para que nada quede “huérfano” sin obra asignada.
-*   **Nombre recomendado:** `MAESTROS_Proyectos.xlsx`
+*   **Nombre:** `MAESTROS_Proyectos.xlsx`
 
 **B) Listado de Terceros (Excel)**
 *   **Contenido:** Clientes y Proveedores (ID, Nombre, NIF si aplica).
-*   **Nombre recomendado:** `MAESTROS_Terceros.xlsx`
+*   **Nombre:** `MAESTROS_Terceros.xlsx`
 
 **C) Cuentas Bancarias (Excel)**
-*   **Contenido:** IBAN + alias interno (cómo la llamamos en Meraki).
-*   **Nombre recomendado:** `MAESTROS_CuentasBancarias.xlsx`
+*   **Contenido:** IBAN + alias interno.
+*   **Nombre:** `MAESTROS_CuentasBancarias.xlsx`
 
 ---
 
@@ -53,195 +61,345 @@ Actualizar solo cuando haya cambios (alta cliente, nueva obra, cambio banco, etc
 **Ruta:** `.../INPUTS/01_Tesoreria`
 
 **D) Extracto Bancario RAW — IMPRESCINDIBLE (para conciliación)**
-*   **Qué es:** exportación de movimientos desde la web del banco.
-*   **Formato:** CSV o Excel (preferible CSV).
-*   **Columnas mínimas:** Fecha, Concepto/Descripción, Importe, Saldo. (Si existe referencia/ID movimiento/contrapartida, mejor.)
-*   **Regla:** debe incluir todas las cuentas operativas (incluida póliza, cuentas secundarias, tarjetas si aplica).
+*   **Qué es:** exportación de movimientos desde web del banco.
+*   **Formato:** CSV preferible (o Excel si no hay CSV).
+*   **Columnas mínimas:** Fecha, Concepto/Descripción, Importe, Saldo. (Si existe referencia/ID movimiento/contrapartida, incluir).
+*   **Regla:** todas las cuentas operativas (incluida póliza, tarjetas si aplica).
+*   Un archivo por cuenta (recomendado) o consolidado (siempre igual).
 *   **Nombre:** `BANCOS_Movimientos_[NombreBancoCuenta]_YYYY-MM-DD.csv` (o .xlsx)
+*   **Ejemplo de alias estándar:** Santander_Principal, BBVA_Poliza, Caixa_TarjetaEmpresa
 
 ---
 
 **E) Informe de Vencimientos — LISTADO TOTAL (sin filtros)**
 *   **Qué es:** listado de todas las facturas del año en curso (o rango amplio).
-*   **Regla de Oro:** NO FILTRAR solo “pendiente”. Debe incluir:
-    *   cobradas
-    *   pagadas
-    *   pendientes
-    *   devueltas
-*   **Por qué:** doble función:
-    1. conciliación (punteo con banco)
-    2. forecast (ver lo pendiente)
+*   **Regla de Oro:** NO FILTRAR solo “pendiente”. Debe incluir cobradas, pagadas, pendientes, devueltas.
 *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
 
 ---
 
-**F) Forecast Semanal + Compromisos (Shadow Debt) — “inteligencia humana”**
-*   **Qué es:** vuestro Excel donde integráis criterio humano.
+**F) Forecast Semanal + Compromisos (Shadow Debt)**
+*   **Qué es:** Excel donde integráis criterio humano.
 *   **Nombre:** `TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx`
 
 **Pestaña 1: Previsión de cobros**
 *   Cada cobro con **PROBABILIDAD:** Alta / Media / Baja.
-*   Esto permite escenarios (pesimista/realista/optimista).
 
-**Pestaña 2: COMPROMISOS (Shadow Debt)**
+**Pestaña 2: Compromisos (Shadow Debt)**
 *   Confirming firmados
 *   Pedidos de materiales aceptados
 *   Certificaciones aprobadas
 *   Señales/anticipos acordados
-*   Cualquier pago ya comprometido sin factura
-*   **Por qué:** es deuda real aunque aún no sea contable. Reduce caja disponible.
+*   Cualquier pago comprometido sin factura
+*   **Por qué:** deuda real no contable aún → reduce caja disponible
 
 ---
 
 **G) Pool Bancario (Foto fija) — solo si hay cambios**
-*   **Qué es:** saldos a fecha de corte + límites de pólizas actualizados.
+*   **Qué es:** saldos a fecha de corte + límites de pólizas.
 *   **Nombre:** `FINANZAS_PoolBancario.xlsx`
 
 ---
 
-### PROTOCOLO DE CALIDAD (Check final, 30 segundos)
-Antes de cerrar la tarea:
-1. **Cut-off semanal:** los archivos contienen datos hasta el domingo 23:59 anterior.
-2. **Sin filtros:** Vencimientos debe tener muchas filas (pagadas + pendientes + etc.).
-3. **Fecha correcta en nombres:** YYYY-MM-DD.
-4. **Extractos completos:** están todas las cuentas (no olvidar póliza/tarjeta).
-5. **RAW real:** no capturas, no PDF si se puede exportar CSV/Excel.
+**PROTOCOLO DE CALIDAD (Check final, 30 segundos)**
+1. Cut-off semanal: hasta domingo 23:59
+2. Sin filtros: Vencimientos con muchas filas
+3. Fecha correcta en nombres: YYYY-MM-DD
+4. Bancos: están todas las cuentas
+5. RAW real: CSV/XLSX exportado (no PDF/captura)
 
 ---
 
-### ANEXO TÉCNICO ERP — Vencimientos
-Si informática necesita configuración:
-*   No agrupar por cliente (lista plana).
-*   Estado = Todos (cobrados/pagados/pendientes/devueltos).
-*   Incluir:
-    *   Fecha emisión
-    *   Fecha vencimiento
-    *   Importe total
-    *   Importe pendiente
-    *   Cliente/Proveedor
-    *   Nº factura
-    *   Cód. obra
-    *   Estado
-*   Añadir:
-    *   Identificador único Serie + Nº
-    *   Tipo documento: Factura vs Abono/Rectificativa
+**ANEXO TÉCNICO ERP — Vencimientos**
+*   No agrupar por cliente (lista plana)
+*   Estado = Todos (cobrados/pagados/pendientes/devueltos)
+*   Incluir: Fecha emisión, Fecha vencimiento, Importe total, Importe pendiente, Cliente/Proveedor, Nº factura, Cód. obra, Estado
+*   Añadir: Identificador único Serie+Nº y Tipo documento (Factura vs Abono/Rectificativa)
 
 ================================================================================
 
-✅ TAREA 2 — RESULTADO (PyG) + ESCENARIOS 12 MESES (Rentabilidad y estructura)
+### ✅ TAREA 2 — RESULTADO (PyG) + ESCENARIOS 12 MESES (Rentabilidad y estructura)
 
 **Título:** PROTOCOLO DE RESULTADO — Previsión PyG 12M: Coste Empresa + Coste Directo + Ingresos por Obra (Instrucciones Completas)
-
 **Asignada a:** Carolina
 **Frecuencia:** Mensual (recomendado)
-**Entrega:** dentro de los primeros 5 días laborables del mes (si Dirección quiere “modo vivo”, puede actualizarse cada semana, pero el estándar debería ser mensual para consistencia).
+**Entrega:** dentro de los primeros 5 días laborables del mes
 
 **Objetivo:**
-Tener una visión de resultado a 12 meses (devengo), con:
-*   estructura de costes de empresa,
-*   costes directos por obras,
-*   ingresos por obra,
-*   margen (GOP) y resultado explotación,
-*   escenarios (pesimista/realista/optimista).
+Visión de resultado (devengo) a 12 meses:
+*   estructura de costes de empresa
+*   costes directos por obras
+*   ingresos por obra
+*   margen (GOP) y resultado explotación
+*   escenarios (pesimista/realista/optimista)
 
-Esto no sustituye tesorería: la tesorería mira caja; el PyG mira rentabilidad.
-
----
-
-### Documento base (lo que ya tenéis de Juan Manuel)
-Estructura de previsión 12 meses con:
-*   **Costes directos:**
-    *   Gastos de mercaderías
-    *   Trabajos realizados por otras empresas
-*   **Total consumos / personal:**
-    *   sueldos y salarios
-    *   complementos variables + Ltrs
-    *   indemnizaciones
-    *   pagas extras
-    *   vacaciones + festivos
-    *   seguridad social a cargo empresa
-    *   uniformes
-    *   autónomo (nota: si lo paga cta banco socio, no gasto empresarial según vuestro criterio)
-    *   otros gastos sociales
-*   **Gastos de estructura / servicios:**
-    *   arrendamientos y cánones
-    *   profesionales independientes
-    *   transportes
-    *   primas de seguros
-    *   servicios bancarios
-    *   publicidad / PR
-    *   suministros
-    *   otros servicios
-*   **Ingresos por obra:**
-    *   OBRA 1, OBRA 2, OBRA 3…
-    *   GOP / Resultado de explotación
-
-Esto se entiende perfectamente como “PyG forecast 12M”.
+No sustituye tesorería: Tesorería mira caja; PyG mira rentabilidad.
 
 ---
 
-### Carpetas a alimentar
-**Ruta raíz:** `Meraki_Control_Panel / INPUTS`
-
----
-
-#### 📁 02_Rentabilidad (entrada desde ERP, si se usa para contraste)
+#### 📁 02_Rentabilidad (si se usa para contraste con ERP)
 **Ruta:** `.../INPUTS/02_Rentabilidad`
 
-**H) Informe de Análisis Económico por Capítulo (ERP)**
-*   Coste previsto vs coste producido vs coste facturado (si existe) + % desviación.
+**H) Análisis Económico por Capítulo (ERP)**
+*   Coste previsto vs producido vs facturado (si existe) + % desviación
 *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
-*   **Uso:** “alerta temprana” en obras y contraste con previsión.
+*   **Uso:** alerta temprana y contraste con PyG
 
 ---
 
-#### 📁 05_Presupuesto_y_Escenarios (nueva carpeta recomendada)
-**Ruta sugerida:** `.../INPUTS/05_Presupuesto_y_Escenarios`
+#### 📁 05_Presupuesto_y_Escenarios (carpeta nueva recomendada)
+**Ruta:** `.../INPUTS/05_Presupuesto_y_Escenarios`
 
 **K) PyG Forecast 12M (Documento maestro)**
-*   **Qué es:** previsión mensual de 12 meses (resultado).
+*   **Qué es:** previsión mensual de 12 meses (resultado)
 *   **Nombre:** `FINANZAS_PYG_Forecast12M_YYYY-MM.xlsx`
 
 **Debe incluir como mínimo:**
 1. Ingresos por obra (OBRA 1, OBRA 2…)
 2. Costes directos (mercaderías + trabajos realizados por otras empresas)
-3. Costes de empresa / personal (toda la descomposición que tenéis)
-4. Gastos de estructura (arrendamientos, profesionales, seguros, bancos, publicidad, suministros, otros)
-5. GOP / Resultado explotación (tal como lo calcula vuestro modelo)
+3. Costes empresa / personal (sueldos, variables, indemnizaciones, extras, vacaciones, SS, uniformes, otros…)
+4. Gastos estructura/servicios (arrendamientos, profesionales, transportes, seguros, bancos, publicidad/PR, suministros, otros)
+5. GOP / Resultado explotación
 
 **Notas de criterio:**
-*   Mantener el criterio de qué se considera gasto empresa vs pagos del socio (como habéis definido para “autónomo”).
-*   Mantener consistencia de categorías mes a mes.
+*   Mantener criterio de “gasto empresa” vs pagos socio (autónomo si aplica)
+*   Mantener consistencia de categorías mes a mes
 
 ---
 
 **L) Escenarios 12M (mínimo 3) con reglas explícitas**
-*   **Nombre:** `FINANZAS_Escenarios12M_YYYY-MM.xlsx` (o pestaña dentro del mismo PyG Forecast 12M)
+*   **Nombre:** `FINANZAS_Escenarios12M_YYYY-MM.xlsx` (o pestaña dentro del PyG)
 
 **Escenarios mínimos:**
-1. **Pesimista:** caída o retraso de ingresos por obra + presión de costes (margen peor).
-2. **Realista:** según pipeline y costes previstos actuales.
-3. **Optimista:** entrada de obras / margen mejor / estructura controlada.
+1. Pesimista
+2. Realista
+3. Optimista
 
-**Drivers/palancas que deben existir (objetivo y medible):**
-*   Ingresos por obra: probabilidad o timing (si aplicáis probabilidad, que se vea).
-*   % coste directo (margen bruto) por obra o promedio.
-*   Personal: fijo/variable (incluye variables + extras + SS).
-*   Estructura: separar lo aplazable y no aplazable para decisiones.
-*   (Opcional si lo queréis más realista): amortización y financieros si forman parte de vuestro PyG real.
-
----
-
-### PROTOCOLO DE CALIDAD (resultado)
-Antes de cerrar:
-1. La previsión cubre 12 meses completos (no menos).
-2. La clasificación de partidas se mantiene idéntica mes a mes (para comparar).
-3. Los ingresos están desglosados por obra (OBRA 1, OBRA 2…).
-4. Los costes directos y estructura no están “mezclados” (cada uno en su sitio).
-5. Escenarios: las reglas son claras (qué cambia y cuánto cambia).
+**Drivers/palancas (objetivo y medible):**
+*   Ingresos por obra: probabilidad o timing (si se usa, que se vea)
+*   % coste directo (margen bruto) por obra o promedio
+*   Personal: fijo/variable (incluye extras + SS)
+*   Estructura: separar aplazable / no aplazable
+*   (Opcional) amortización y financieros si forman parte del PyG real
 
 ---
 
-### Resumen de lo que se le pide a Carolina (muy claro)
-*   **Cada semana:** Tesorería (banco RAW + vencimientos total + forecast + compromisos + pool si cambia).
-*   **Cada mes:** Resultado (PyG forecast 12M con estructura completa + escenarios 12M, y contraste con análisis económico si procede).
+**PROTOCOLO DE CALIDAD (Resultado)**
+1. Cubre 12 meses completos
+2. Clasificación idéntica mes a mes
+3. Ingresos desglosados por obra
+4. Coste directo y estructura no mezclados
+5. Escenarios: reglas claras (qué cambia y cuánto)
+
+================================================================================
+
+### 📄 MANUALES DE CARPETA (README TXT)
+*Para crear como archivos de texto en cada carpeta del Dropbox.*
+
+#### README_00_Maestros.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 00_Maestros
+Objetivo: Mantener las “tablas base” para que el sistema pueda reconocer obras, terceros y cuentas sin errores.
+
+Cuándo se actualiza
+*   Solo cuando haya cambios, por ejemplo:
+    *   nueva obra / cambio de nombre / cambio de estado
+    *   alta/baja de cliente o proveedor
+    *   alta/baja de cuenta bancaria, cambio de alias, cambio de entidad
+
+Archivos esperados (obligatorios cuando aplican cambios)
+1.  Proyectos
+    *   Nombre: MAESTROS_Proyectos.xlsx
+    *   Contenido mínimo: ID_Obra, Nombre_Oficial, Estado
+    *   Regla: el ID_Obra debe ser estable (no cambiar cada mes).
+
+2.  Terceros (Clientes/Proveedores)
+    *   Nombre: MAESTROS_Terceros.xlsx
+    *   Contenido mínimo: ID_Tercero, Nombre, Tipo (Cliente/Proveedor), NIF (si aplica)
+
+3.  Cuentas bancarias
+    *   Nombre: MAESTROS_CuentasBancarias.xlsx
+    *   Contenido mínimo: IBAN, Alias_Cuenta, Banco, Moneda (si aplica)
+
+Formatos permitidos
+*   ✅ .xlsx
+*   ❌ No PDF, no capturas, no links sueltos
+
+Checklist rápido (30s)
+*   Los IDs están completos (sin celdas vacías en ID_Obra o ID_Tercero)
+*   No hay duplicados de IDs
+*   Alias de cuentas claros y consistentes (ej: Santander_Principal, BBVA_Poliza)
+
+---
+
+#### README_01_Tesoreria.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 01_Tesoreria
+Objetivo: Proveer datos crudos para:
+*   Caja real,
+*   Conciliación automática (punteo facturas vs banco),
+*   Forecast semanal y escenarios de liquidez,
+*   Compromisos sin factura (shadow debt).
+
+Frecuencia y entrega
+*   Semanal
+*   Entrega ideal: viernes antes de cierre
+*   Entrega máxima: lunes antes de las 10:00
+
+Cut-off (regla técnica obligatoria)
+Todos los archivos deben incluir datos hasta el domingo 23:59 anterior (semana cerrada).
+
+Archivos esperados (semanales)
+1.  Extractos bancarios RAW (por cuenta) — IMPRESCINDIBLE
+    *   Formato preferido: .csv (si no se puede, .xlsx)
+    *   Nombre (por cuenta): BANCOS_Movimientos_[NombreBancoCuenta]_YYYY-MM-DD.csv (o .xlsx si no hay CSV)
+    *   Regla: debe incluir todas las cuentas operativas (incluye póliza / secundarias / tarjetas si aplica).
+    *   Columnas mínimas: Fecha, Concepto/Descripción, Importe, Saldo (si existe Referencia/ID movimiento o Contrapartida, incluir)
+    *   Importante: No PDF, no capturas. Tiene que ser exportación descargable.
+
+2.  Vencimientos ERP — LISTADO TOTAL (sin filtros)
+    *   Nombre: TESORERIA_Vencimientos_YYYY-MM-DD.xlsx
+    *   Regla de oro: NO filtrar solo “Pendientes”. Debe incluir: cobradas, pagadas, pendientes, devueltas.
+    *   Uso: Conciliación + Forecast.
+
+3.  Forecast semanal + Compromisos (Shadow Debt)
+    *   Nombre: TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx
+    *   Contenido:
+        *   Pestaña 1: Cobros previstos con PROBABILIDAD (Alta/Media/Baja)
+        *   Pestaña 2: COMPROMISOS (confirming, pedidos aceptados, certificaciones aprobadas, señales/anticipos, etc.) aunque no tengan factura.
+
+4.  Pool bancario (solo si hay cambios)
+    *   Nombre: FINANZAS_PoolBancario.xlsx
+    *   Contenido: saldos a fecha de corte + límites de pólizas.
+
+Checklist de calidad (antes de cerrar)
+*   Vencimientos: “muchas filas” (no solo pendientes) + sin filtros
+*   Bancos: están todas las cuentas
+*   Fecha correcta en nombres YYYY-MM-DD
+*   Cut-off correcto hasta domingo 23:59
+*   Archivos en formato correcto (CSV/XLSX)
+
+---
+
+#### README_02_Rentabilidad.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 02_Rentabilidad
+Objetivo: Control “en caliente” de la salud de las obras (rentabilidad, desviaciones, alertas tempranas).
+
+Frecuencia
+*   Recomendado: semanal si el ERP lo permite (o al menos quincenal)
+*   Mínimo: mensual
+
+Archivo esperado
+1.  Análisis Económico por Capítulo (ERP)
+    *   Nombre: OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx
+    *   Nivel de detalle: por CAPÍTULO (no solo total obra)
+    *   Debe incluir: Coste Previsto, Coste Producido, % Desviación, (si existe) Coste Facturado
+    *   Muy importante: incluir códigos/IDs (ID obra / ID capítulo) si el ERP los ofrece.
+
+Formatos permitidos
+*   ✅ .xlsx
+*   ❌ No PDF, no capturas
+
+Checklist rápido
+*   La exportación contiene todas las obras activas
+*   No hay columnas clave vacías (coste previsto / producido)
+*   Si hay filtros, quitarlos antes de exportar
+
+---
+
+#### README_03_Estructura.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 03_Estructura
+Objetivo: Controlar y anticipar los gastos generales (pagos fijos) y facilitar decisiones en escenarios de estrés.
+
+Frecuencia
+*   Actualizar cuando haya cambios (importes, altas/bajas, nuevas suscripciones, préstamos, seguros, etc.)
+*   Revisión recomendada: mensual (aunque no cambie nada)
+
+Archivo esperado
+1.  Pagos fijos (catálogo maestro)
+    *   Nombre: FINANZAS_PagosFijos_2026.xlsx
+    *   Contenido mínimo recomendado: Concepto, Proveedor/Organismo, Importe previsto, Fecha prevista (o “día del mes” / periodicidad), Periodicidad (mensual/trimestral/anual)
+    *   Categoría (OBLIGATORIO):
+        *   INAPLAZABLE (nóminas, SS, Hacienda, préstamos…)
+        *   APLAZABLE (alquiler oficina, renting, suscripciones, formación…)
+
+Notas importantes
+*   Mantener consistencia: mismas categorías y nombres para comparar mes a mes.
+*   Si hay pagos “del socio” que no son gasto empresa, deben quedar claros según criterio interno.
+
+Formatos permitidos
+*   ✅ .xlsx
+*   ❌ No PDF
+
+Checklist rápido
+*   Categoría (Aplazable/Inaplazable) completa en todas las filas
+*   Importes actualizados
+*   No hay duplicados de un mismo pago fijo sin explicación
+
+---
+
+#### README_04_Patrimonio.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 04_Patrimonio
+Objetivo: Seguimiento del patrimonio financiero de la empresa (inversiones, plazos fijos, cuentas de ahorro, fondos).
+
+Frecuencia
+*   Solo cuando haya cambios (alta, cierre, traspaso, rescate, cambio relevante de saldo)
+*   Revisión recomendada: mensual
+
+Archivo esperado
+1.  Cuadro de inversiones
+    *   Nombre: FINANZAS_Inversiones.xlsx
+    *   Contenido recomendado: Entidad, Producto, Saldo actual, Rentabilidad % (si aplica), Disponibilidad/Liquidez (cuándo puede retirarse), Fecha de vencimiento (si aplica)
+
+Formatos permitidos
+*   ✅ .xlsx
+*   ❌ No PDF
+
+Checklist rápido
+*   Saldos actualizados
+*   Liquidez definida (no dejar “en blanco”)
+*   Si hay vencimientos, están rellenos
+
+---
+
+#### README_05_Presupuesto_y_Escenarios.txt
+Carpeta: Meraki_Control_Panel / INPUTS / 05_Presupuesto_y_Escenarios
+Objetivo: Control de RESULTADO (devengo) y visión estratégica a 12 meses.
+Importante: Esto NO es tesorería. Aquí medimos rentabilidad, no caja.
+
+Frecuencia y entrega
+*   Mensual (recomendado)
+*   Entrega: dentro de los primeros 5 días laborables del mes
+*   Si Dirección pide “modo vivo”, puede actualizarse semanalmente, pero mantener consistencia mensual.
+
+Archivos esperados
+1.  PyG Forecast 12M (documento maestro)
+    *   Nombre: FINANZAS_PYG_Forecast12M_YYYY-MM.xlsx
+    *   Debe incluir como mínimo:
+        1. Ingresos por obra (OBRA 1, OBRA 2…)
+        2. Costes directos (mercaderías + trabajos realizados por otras empresas)
+        3. Costes empresa / personal (sueldos, variables, indemnizaciones, extras, vacaciones, SS, uniformes, otros gastos sociales)
+        4. Gastos de estructura / servicios (arrendamientos, profesionales, transportes, seguros, bancos, publicidad/PR, suministros, otros)
+        5. GOP / Resultado de explotación
+
+Nota de criterio interno:
+*   Respetar el criterio de qué es gasto de empresa vs pagos del socio (si aplica).
+
+2.  Escenarios 12M (mínimo 3)
+    *   Nombre: FINANZAS_Escenarios12M_YYYY-MM.xlsx (o pestaña dentro del PyG)
+    *   Escenarios mínimos: Pesimista / Realista / Optimista
+    *   Reglas (drivers) que deben existir y ser medibles:
+        *   Ingresos por obra: probabilidad o timing
+        *   % coste directo (margen bruto)
+        *   Personal: fijo/variable
+        *   Estructura: aplazable vs inaplazable
+        *   (Opcional) amortización/financieros si vuestro PyG real los incluye
+
+Formatos permitidos
+*   ✅ .xlsx
+*   ❌ No PDF
+
+Checklist de calidad
+*   Cubre 12 meses completos
+*   Misma clasificación de partidas mes a mes
+*   Ingresos desglosados por obra
+*   Coste directo y estructura no mezclados
+*   Escenarios: reglas claras de qué cambia y cuánto
