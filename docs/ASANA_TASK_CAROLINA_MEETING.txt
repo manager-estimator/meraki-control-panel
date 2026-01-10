@@ -1,42 +1,62 @@
 
-**Título:** Preparación Reunión Técnica: Mapa Completo de Tesorería y Datos
-**Asignada a:** Carolina
-**Prioridad:** Alta (Para revisar en reunión del fin de semana)
+**Título:** AGENDA MAESTRA: Reunión Técnica Finanzas (Carolina) - COMPLETA
+**Prioridad:** CRÍTICA (Reunión en curso)
 
-**Objetivo:** Para que el "Panel de Control" muestre la **Caja Real**, necesitamos mapear no solo las facturas, sino *todo* lo que saca dinero de la cuenta. En nuestra reunión revisaremos estos puntos:
-
-### A) Prueba de Fuego: ERP → Excel
-*   **Acción**: Quiero ver en directo cómo exportamos a Excel desde SQL Obras.
-*   **Pregunta**: ¿Podemos sacar un listado con un clic? ¿O hay que pedirlo a soporte? (Clave para automatizar).
-
-### B) Lo que falta (El "Dinero Invisible")
-Aparte de las Facturas de Clientes y Proveedores, necesitamos listar estos pagos para que el sistema no falle en las previsiones:
-
-**7. Deuda y Financiación (Banco)**
-*   Listado de préstamos, pólizas de crédito o leasings activos.
-*   Necesitamos el **Cuadro de Amortización** (Excel): ¿Cuánto pagamos de cuota cada mes y qué día vence?
-
-**8. Impuestos y Fiscalidad (Hacienda)**
-*   Calendario aproximado de pagos fijos:
-    *   IVA (Modelo 303) - ¿Cuánto solemos pagar trimestralmente aprox?
-    *   Seguros Sociales (Coste Empresa) - ¿Qué día se carga en cuenta?
-    *   IRPF / I.S.
-
-**9. Gastos de Estructura (Fijos)**
-*   Listado de gastos recurrentes que NO entran por factura de obra (o si entran, cómo los filtramos):
-    *   Alquiler Oficina, Luz, Agua, Internet.
-    *   Nóminas de Estructura (Administración/Dirección).
-    *   Seguros Responsabilidad Civil / Vehículos.
+Aquí tienes TODO lo que necesitamos de Finanzas, unificado en una sola lista para que no falte nada en la reunión.
 
 ---
 
-### C) Archivos a preparar (Raw Data)
-*(La lista técnica que ya teníamos)*
+### 1. LA PRUEBA DE FUEGO (ERP)
+Quiero ver en directo: **Exportar a Excel desde SQL Obras**.
+*   ¿Es un clic o es un dolor?
+*   ¿Salen todas las columnas o hay que configurar informes?
 
-1.  **Bancos**: Extracto últimos 3 meses (.xlsx).
-2.  **Facturas Emitidas**: Año en curso (.xlsx).
-3.  **Facturas Recibidas**: Año en curso (.xlsx).
-4.  **Maestro de Obras**: Lista de códigos de proyecto activos.
+---
 
-**Nota para la reunión**:
-No hace falta tenerlo todo perfecto, pero sí saber **dónde está cada dato** y si podemos sacarlo a Excel fácilmente.
+### 2. LOS ARCHIVOS "ESTÁNDAR" (Lo básico)
+Necesitamos que se comprometa a subir estos archivos semanalmente (o cuando definamos):
+
+*   **A) Bancos (Extractos)**: Excel (.xlsx) de TODAS las cuentas.
+    *   *Check:* ¿Viene el "Concepto" limpio? ¿Separado Debe/Haber o con signo positivo/negativo?
+*   **B) Facturas Emitidas (Ventas)**: Acumulado anual.
+    *   *CRÍTICO:* Tiene que venir una columna que diga **"Código de Obra"** o "Proyecto". Sin eso, no sabemos qué obra gana dinero.
+*   **C) Facturas Recibidas (Compras)**: Acumulado anual.
+    *   *CRÍTICO:* Igual, columna **"Obra"** para costes directos y columna **"Partida/Familia"** (Materiales, Subcontrata...).
+*   **D) Maestro de Obras**: Lista de obras activas con su Código Oficial.
+
+---
+
+### 3. EL DINERO "INVISIBLE" (Lo que solemos olvidar)
+Esto es lo que descuadra la caja si no lo pedimos explícitamente:
+
+*   **E) Deuda Financiera**:
+    *   ¿Tenemos un **Cuadro de Amortización** en Excel de los préstamos/leasing?
+    *   Necesito saber: [Capital Amortizado] + [Intereses] + [Fecha Vencimiento].
+*   **F) Impuestos (Hacienda)**:
+    *   **IVA (Modelo 303)**: ¿Cuánto pagamos aprox/trimestre? ¿Qué días salen del banco?
+    *   **Seguros Sociales (TCs)**: ¿Qué día exacto se carga? (Suele ser final de mes o día 1).
+    *   **IS / IRPF**: Previsión de pagos.
+*   **G) Gastos de Estructura**:
+    *   ¿Dónde imputa el Alquiler, Luz, Software, Gestoría?
+    *   ¿Van a un "Proyecto 00"? ¿O se quedan con el campo Proyecto vacío? (Necesitamos saber cómo filtrarlos).
+
+---
+
+### 4. PERSONAL / NÓMINAS
+*   **H) Coste Empresa Real**:
+    *   No quiero el "Líquido a percibir", quiero el **Coste Total Empresa** (Nómina + SS).
+    *   ¿Puede darnos un Excel mensual con: [Empleado] | [Obra asignada] | [Coste Total]?
+    *   *Nota:* Si no lo asigna a obras, que nos dé el total mensual para ponerlo como gasto fijo.
+
+---
+
+### 5. PREGUNTAS DE PROCESO
+*   ¿Qué día de la semana le viene mejor subir los archivos? (Sugerencia: Viernes cierre o Lunes apertura).
+*   ¿Dónde guardamos las facturas físicas (PDF)? (¿Dropbox? ¿Link en el ERP?).
+
+---
+**Resumen para ella:**
+"Carolina, no quiero cambiar tu forma de trabajar. Solo quiero que:
+1.  Me saques estos 4-5 Excels.
+2.  Me expliques dónde metes los gastos fijos y la deuda.
+3.  Me dejes automatizar la lectura de eso."
