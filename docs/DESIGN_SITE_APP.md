@@ -15,7 +15,7 @@
     *   **Recurso**: Busca "Pepe", "Juan" (La app guarda el ID interno `0043`).
     *   **Partida/Tarea**: Busca "Alicatado", "Estructura" (O "POR ASIGNAR" si duda).
     *   **Horas**: Número (ej: 8).
-    *   **Tipo**: Normal / Extra.
+    *   **Tipo**: Normal / Extra (Mapeado a "HORAS NORMALES" etc).
     *   **Comentario**: (Opcional) "Rematando esquina norte".
 4.  **Confirmar y Enviar**:
     *   Botón grande "Cerrar Parte".
@@ -27,40 +27,47 @@
 2.  **Validación**:
     *   Si una línea está en "POR ASIGNAR", la oficina asigna la partida correcta.
     *   Check de coherencia (¿80 horas en un día? Alerta).
-3.  **Exportación ERP**:
+3.  **Exportación ERP (Formato Exacto)**:
     *   Botón "Generar Fichero Importación".
-    *   Salida: `CSV` o `TXT Ancho Fijo` (según especificación SQL Obras).
-    *   El ERP ingesta el archivo y las horas quedan imputadas.
+    *   Salida: `Excel (.xlsx)` con estructura exacta `PLANTILLA_IMPORTACION_V3`.
 
 ---
 
-## 2. Modelo de Datos (Supabase)
+## 2. Especificación Técnica de Exportación (ERP)
+La App debe generar un archivo con estas columnas EXACTAS (verificadas en plantilla):
 
-### Tablas Maestras (Vienen del ERP)
-*   `erp_projects`: `id` (uuid), `erp_code` (text), `name` (text), `status` (active/closed).
-*   `erp_resources`: `id` (uuid), `erp_id` (text), `name` (text), `category` (oficial, peon...).
-*   `erp_tasks`: `id` (uuid), `erp_id` (text), `concept` (text), `project_id` (fk).
-
-### Tablas Transaccionales (Generadas por la App)
-*   `work_reports`:
-    *   `id`, `date`, `project_id`, `status` (draft, submitted, approved, exported), `created_by` (Tony), `reviewer_id`.
-*   `work_report_lines`:
-    *   `report_id`, `resource_id`, `task_id`, `hours`, `hour_type` (normal/extra), `notes`.
-
----
-
-## 3. Requerimientos Técnicos (Stack)
-*   **Frontend**: Next.js (Mismo proyecto `meraki-control-panel`).
-    *   Ruta: `/app/site/` (Vista móvil optimizada).
-*   **Backend**: Supabase (Postgres + Auth).
-*   **Offline**: PWA básica (Service Worker) para guardar borrador si se va la cobertura en el sótano.
+| Columna ERP | Valor / Origen | Ejemplo |
+| :--- | :--- | :--- |
+| **Tipo documento** | Fijo: `PARTE_MO` | `PARTE_MO` |
+| **Proyecto** | Selección App (`projects.erp_code`) | `2024.001` |
+| **Serie** | Fijo (Configurable) | `0` |
+| **Número** | Fijo (Configurable) | `0` |
+| **Fecha** | Date Picker App | `05/01/2026` |
+| **Partida (código)** | Selección App (`tasks.erp_id`) | `004.001` |
+| **Almacén** | Fijo (Configurable) | `0` |
+| **Recurso (código)** | Selección App (`resources.erp_id`) | `1243` |
+| **Horario** | Desplegable (`HORAS NORMALES`, `EXTRA`, `DIETA`) | `HORAS NORMALES` |
+| **Tipo imputación** | Fijo (o Mapeado) | `1` |
+| **Fecha/Hora Inicio** | (Calculado o vacío) | `8:00:00` |
+| **Cantidad** | Input App (Horas) | `8,00` |
+| **Observaciones** | Input App (Texto) | `Revoco fachada` |
 
 ---
 
-## 4. Datos Necesarios para Configurar (Siguiente Paso)
-Para que esto funcione el "Día 1", necesitamos pedir a TI/Admin:
+## 3. Modelo de Datos (Supabase)
 
-1.  **Listado de Recursos**: Excel con `Nombre` e `ID de Empleado` (el que usa el ERP).
-2.  **Listado de Proyectos**: Códigos exactos (ej: `2024-001`).
-3.  **Listado de Conceptos/Partidas**: ¿A qué partidas puede imputar Tony? (¿Generales o específicas por obra?).
-4.  **Formato de Importación**: Ejemplo del archivo `.txt` o `.csv` que traga el ERP.
+### Tablas Maestras (Para los desplegables)
+*   `erp_projects`: `id`, `erp_code`, `name`.
+*   `erp_resources`: `id`, `erp_id` (1243), `name` (Juan Gabriel), `category`.
+*   `erp_tasks`: `id`, `erp_id` (004.001), `concept` (Alicatado), `project_id`.
+
+### Tablas Transaccionales
+*   `work_reports`: Cabecera del parte diario (Proyecto, Fecha, Usuario).
+*   `work_report_lines`: Detalle de líneas (Recurso, Partida, Horas, Notas).
+
+---
+
+## 4. Próximos Pasos (Validación Técnica)
+Para programar esto necesitamos una exportación real de las tablas maestras:
+1.  **CSV de Empleados (Recursos)**: `Código ERP` + `Nombre`.
+2.  **CSV de Partidas**: `Código ERP` + `Descripción` (Para que Tony sepa qué elegir).

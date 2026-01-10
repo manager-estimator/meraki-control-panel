@@ -7,42 +7,59 @@
 
 ---
 
-### A. Tesorería (Facturas y Vencimientos)
+### A. Tesorería (Cash Flow)
 1.  **Informe de Vencimientos (Listado de Facturas)**
     *   **Fuente:** SQL Obras > Informes > Tesorería > Vencimientos.
     *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/01_Tesorería/`
+    *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
+    *   *Nota: Debe incluir Facturas de Cliente (Cobros) y Proveedores (Pagos).*
 
-2.  **Pool Bancario (Saldos)**
-    *   Listado de cuentas corrientes y límites de póliza (Saldo HOY).
-
----
+2.  **Pool Bancario (FOTO INICIAL / CAMBIOS)**
+    *   Listado de cuentas corrientes con **Saldo a Fecha de Hoy**.
+    *   Límite de Pólizas actualizado.
+    *   **Nombre:** `FINANZAS_PoolBancario.xlsx`
 
 ### B. Rentabilidad (Operaciones)
 3.  **Informe de Análisis Económico (Nivel Capítulo)**
     *   **Fuente:** SQL Obras > Informes > Obras > Análisis Económico.
+    *   **Nivel de Detalle:** RESUMIDO POR CAPÍTULO.
     *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/02_Rentabilidad/`
-
----
+    *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
 
 ### C. Pagos No Facturados (Fijos)
 4.  **Hoja de Previsión de Pagos Fijos (Mensual)**
-    *   Excel manual: Impuestos, Deuda (Préstamos) y Nóminas (Totales).
-
----
+    *   Excel manual con 3 pestañas:
+        *   **Impuestos:** IVA, IRPF, Sociedades (Fecha y Monto estimado).
+        *   **Deuda:** Préstamos y Leasing (Cuota mensual + Día de cargo).
+        *   **Nóminas:** Total coste empresa mensual estimado.
+    *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/00_Estructura/`
 
 ### D. Patrimonio (Inversiones y Ahorro)
-*Queremos ver crecer el "Cerdito" de la empresa.*
-
 5.  **Cuadro de Inversiones (Mensual)**
-    *   Excel simple con nuestros activos financieros (NO operativos).
-    *   **Columnas:**
-        *   **Producto:** (Ej: "Plazo Fijo Caixa", "Fondo Inversión", "Cuenta Ahorro").
-        *   **Saldo Actual:** Valor a fecha de hoy.
-        *   **Rentabilidad Esperada:** (% Anual).
-        *   **Disponibilidad:** (Inmediata / Vencimiento en 2027...).
+    *   Excel simple con Activos Financieros (Fondos, Plazos Fijos).
+    *   **Datos:** Producto, Saldo Actual, Rentabilidad %, Disponibilidad.
     *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/03_Patrimonio/`
-    *   **Nombre:** `FINANZAS_Inversiones.xlsx`
 
 ---
-**Nota:**
-Con esto tendremos el Dashboard de "Salud Total": Caja Operativa + Inversiones a Largo Plazo.
+
+## 🔧 ANEXO TÉCNICO: Configuración de Columnas (Para TI/ERP)
+
+**1. Para el Informe de Vencimientos:**
+Asegurar que salen visibles:
+*   `Fecha Vencimiento` (CRÍTICO)
+*   `Pagador/Cliente` o `Proveedor`
+*   `Importe`
+*   `Pendiente de Cobro/Pago`
+*   `Código de Obra` (Si disponible)
+
+**2. Para el Informe de Análisis Económico:**
+Asegurar que salen visibles:
+*   `Obra / Proyecto`
+*   `Capítulo` (Demolición, Estructura, etc.)
+*   `Coste Previsto` (Presupuesto)
+*   `Coste Producido` (Real)
+*   `% Desviación`
+
+---
+**Nota Final:**
+Una vez subidos a Dropbox, marca esta tarea como completada. El sistema procesará los archivos esa misma noche.
