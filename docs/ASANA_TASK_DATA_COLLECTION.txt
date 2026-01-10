@@ -1,58 +1,78 @@
-**Título:** Exportación Semanal de Datos Financieros (Definitivo)
+**Título:** PROTOCOLO DE DATOS SEMANAL: El "Sistema Nervioso" de Meraki
 **Asignada a:** Carolina
-**Frecuencia:** Semanal (Viernes o Lunes)
-
-**Objetivo:** Alimentar el Meraki Control Panel.
+**Frecuencia:** Semanal (Viernes antes de las 15:00 o Lunes antes de las 10:00)
 
 ---
 
-### 📂 ESTRUCTURA DE CARPETAS (La "Buzón de Entrada")
-Hemos creado 4 carpetas en Dropbox/Drive para que dejes los archivos. Por favor, crea esta estructura si no existe:
+### 1. EL PORQUÉ DE ESTA TAREA (Contexto Estratégico)
+Carolina, este no es "otro reporte más". Es el combustible del **Meraki Control Panel**.
+Tu misión aquí no es "enviar excels", sino **alimentar la inteligencia financiera de la empresa**.
 
-Raíz: `Meraki_Control_Panel / INPUTS`
-> 📁 **01_Tesoreria**   (Para Vencimientos y Bancos)
-> 📁 **02_Rentabilidad** (Para Análisis de Obras)
-> 📁 **03_Estructura**   (Para Gastos Generales, Impuestos y Nóminas)
-> 📁 **04_Patrimonio**   (Para Inversiones)
+*   **Causa:** Si tú subes los ficheros Vencimientos y Bancos el viernes...
+*   **Efecto:** La Dirección sabe el lunes exactamente cuánto dinero hay, qué facturas peligran y si podemos pagar las nóminas del mes que viene sin estrés.
+*   **Riesgo:** Si falta un solo dato (ej: los seguros o impuestos), el sistema nos dirá que "sobra dinero" cuando en realidad "falta", y podríamos tomar decisiones equivocadas.
 
----
-
-### A. Tesorería (Caja)
-**Ruta:** `.../INPUTS/01_Tesoreria/`
-
-1.  **Informe de Vencimientos**
-    *   **Archivo:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
-    *   **Nota:** Asegurar que salen TODAS las facturas (Obras + Gastos Generales).
-
-2.  **Pool Bancario** (Solo cambios)
-    *   **Archivo:** `FINANZAS_PoolBancario.xlsx`
-
-### B. Rentabilidad (Obras)
-**Ruta:** `.../INPUTS/02_Rentabilidad/`
-
-3.  **Informe de Análisis Económico**
-    *   **Archivo:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
-
-### C. Estructura y Gastos Generales (Pagos Fijos)
-**Ruta:** `.../INPUTS/03_Estructura/`
-
-4.  **Hoja de Previsión de Pagos Fijos**
-    *   **Archivo:** `FINANZAS_PagosFijos_2026.xlsx`
-    *   Excel manual con 4 pestañas:
-        *   **Impuestos:** IVA, IRPF, Sociedades.
-        *   **Deuda:** Préstamos y Leasing.
-        *   **Nóminas:** Total coste empresa.
-        *   **Gastos Generales:** Alquileres, Suministros (Luz/Agua/Teléfono), Seguros, Software, Asesoria.
-
-### D. Patrimonio
-**Ruta:** `.../INPUTS/04_Patrimonio/`
-
-5.  **Cuadro de Inversiones**
-    *   **Archivo:** `FINANZAS_Inversiones.xlsx`
+**Tu Regla de Oro:**
+"Dato crudo, dato bueno". No maquilles ni resumas los Excels del ERP. El sistema automático prefiere leer el listado entero y sucio que un resumen manual que puede tener errores de copiado.
 
 ---
 
-## 🔧 ANEXO: Configuración de Columnas ERP
+### 2. INSTRUCCIONES DE EJECUCIÓN (Tu Rutina)
 
-**1. Vencimientos:** Visible: `Fecha Vto`, `Cliente/Proveedor`, `Importe`, `Obra`.
-**2. Análisis Económico:** Visible: `Proyecto`, `Capítulo`, `Coste Previsto`, `Coste Producido`, `% Desviación`.
+Hemos creado un "Buzón Digital" en Dropbox/Drive con 4 carpetas.
+Tu trabajo es exportar estos 5 archivos y dejarlos caer en su carpeta correspondiente. El sistema los procesará automáticamente.
+
+#### 📁 CARPETA 01: TESORERÍA (El Oxígeno)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 01_Tesoreria`
+
+**A. Informe de Vencimientos (Excel)**
+*   **Qué es:** El futuro. Lo que está por entrar y salir.
+*   **Por qué:** Sin esto, conducimos a ciegas. Necesitamos saber la FECHA EXACTA de cada cobro y pago.
+*   **Cuidado:** Asegúrate de que no estás filtrando. Tienen que salir **todas** las facturas pendientes, tanto de Obras como de Gastos Generales (Luz, Asesoría, etc.).
+*   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
+
+**B. Pool Bancario (Excel)** (Solo primera vez o cambios)
+*   **Qué es:** El presente. La gasolina que tenemos hoy en el tanque.
+*   **Por qué:** Saber que nos deben 100k€ no sirve de nada si hoy tenemos 0€ en la cuenta y la póliza vencida. Necesitamos Saldo Real + Límite de Crédito.
+*   **Nombre:** `FINANZAS_PoolBancario.xlsx`
+
+#### 📁 CARPETA 02: RENTABILIDAD (El Semáforo)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 02_Rentabilidad`
+
+**C. Informe de Análisis Económico (Excel)**
+*   **Qué es:** La salud de nuestras obras.
+*   **Por qué:** Si esperamos a terminar la obra para ver si ganamos dinero, ya es tarde. Este informe nos avisa "en caliente" si una partida (ej: Demoliciones) se ha comido el margen, para pararlo a tiempo.
+*   **Detalle:** Nivel "Capítulo" es suficiente.
+*   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
+
+#### 📁 CARPETA 03: ESTRUCTURA (El Dinero Invisible)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 03_Estructura`
+
+**D. Previsión de Pagos Fijos (Excel Manual)**
+*   **Qué es:** Todo lo que NO sale en facturas de proveedores. Impuestos, Nóminas, Deuda Bancaria, Seguros.
+*   **Por qué:** Estos son los pagos que te "matan" por sorpresa porque no avisan. Si no los metemos a mano aquí, el sistema pensará que somos más ricos de lo que somos.
+*   **Formato:** Un Excel simple con 4 pestañas (Impuestos, Deuda, Nóminas, Gastos Generales Recurrentes).
+*   **Nombre:** `FINANZAS_PagosFijos_2026.xlsx`
+
+#### 📁 CARPETA 04: PATRIMONIO (La Hucha)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 04_Patrimonio`
+
+**E. Cuadro de Inversiones (Excel Manual)**
+*   **Qué es:** Plazos fijos, fondos, cuentas de ahorro.
+*   **Por qué:** Para diferenciar entre "sobrevivir" (Cash Flow) y "crecer" (Patrimonio). Queremos ver cómo sube esta cifra mes a mes gracias a tu gestión.
+*   **Nombre:** `FINANZAS_Inversiones.xlsx`
+
+---
+
+### 3. ANEXO TÉCNICO (Configuración Inicial ERP)
+*Si Informática te pregunta qué columnas sacar, dales esta chuleta:*
+
+**Para Vencimientos:**
+*   IMPRESCINDIBLE: `Fecha Vencimiento` (Clave para el Cash Flow).
+*   IMPRESCINDIBLE: `Importe Pendiente`.
+*   Necesario: `Cliente/Proveedor`, `Nº Factura`, `Cód. Obra`.
+
+**Para Análisis Económico:**
+*   IMPRESCINDIBLE: `Coste Previsto` (Presupuesto) vs `Coste Producido` (Real).
+*   IMPRESCINDIBLE: `% Desviación`.
+*   Nivel Agrupación: Por `Obra` y luego por `Capítulo`.
