@@ -5,82 +5,74 @@
 ---
 
 ### 1. EL PORQUÉ DE ESTA TAREA (Contexto Estratégico)
-Carolina, este no es "otro reporte más". Es el combustible del **Meraki Control Panel**.
-Tu misión aquí no es "enviar excels", sino **alimentar la inteligencia financiera de la empresa**.
+Carolina, este Protocolo alimenta el **Meraki Control Panel**.
+Necesitamos "Cerrar el Círculo" del dinero: Pasado (Bancos), Presente (Vencimientos) y Futuro (Compromisos y Previsión).
 
-*   **Causa:** Si tú subes los ficheros Vencimientos y Bancos el viernes...
-*   **Efecto:** La Dirección sabe el lunes exactamente cuánto dinero hay y podemos **conciliar** automáticamente (casar facturas con movimientos del banco).
-*   **Riesgo:** Si falta el extracto bancario o las facturas pagadas, el sistema no puede puntear nada y la conciliación falla.
+*   **Riesgo Crítico:** Si solo miramos facturas, no vemos los "pedidos firmados" ni los "impuestos que vienen". El sistema pensará que tenemos dinero libre cuando en realidad ya está comprometido.
 
 **Tu Regla de Oro:**
-"Dato crudo, dato bueno". No maquilles ni resumas los Excels del ERP. El sistema automático prefiere leer el listado entero.
+"Dato crudo, dato bueno". No maquilles ni resumas los Excels del ERP.
 
 ---
 
 ### 2. INSTRUCCIONES DE EJECUCIÓN (Tu Rutina)
 
-Hemos creado un "Buzón Digital" en Dropbox/Drive con carpetas numeradas.
-
-#### 📁 CARPETA 00: MAESTROS (Solo si hay cambios)
-**Ruta:** `Meraki_Control_Panel / INPUTS / 00_Maestros`
-*   **A. Listado de Proyectos:** Excel con todas las obras (ID Obra, Nombre, Estado).
-*   **B. Listado de Terceros:** Clientes y Proveedores (ID, Nombre, NIF).
-*   **C. Cuentas Bancarias:** IBANs y Alias.
-*   *Por qué:* Para que si entra un cliente nuevo, el sistema sepa quién es.
+#### 📁 CARPETA 00: MAESTROS (Solo cambios)
+*   **A. Listado de Proyectos / Clientes / Cuentas.**
 
 #### 📁 CARPETA 01: TESORERÍA (El Oxígeno)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 01_Tesoreria`
 
-**D. Extracto Bancario (RAW) - CRÍTICO**
-*   **Qué es:** Exportación de movimientos (extracto puro) de cada banco.
-*   **Por qué:** Es la "verdad" con la que se puntean las facturas. Sin esto, no hay conciliación.
-*   **Nombre:** `BANCOS_Movimientos_Santander_YYYY-MM-DD.csv` (o .xlsx).
-*   **Corte:** Hasta el Domingo 23:59 anterior.
+**B. Extracto Bancario (RAW) - CRÍTICO**
+*   **Qué es:** Movimientos bancarios hasta el Domingo 23:59.
+*   **Nombre:** `BANCOS_Movimientos_Santander_YYYY-MM-DD.csv`
 
-**E. Informe de Vencimientos (Listado COMPLETO)**
-*   **Qué es:** El pasado (lo cobrado/pagado) Y el futuro (lo pendiente).
-*   **Cuidado:** **NO FILTRES solo "Pendientes".** Saca el listado completo (Cobrados + Pagados + Pendientes).
+**C. Informe de Vencimientos (Listado COMPLETO)**
+*   **Qué es:** Facturas Cobradas, Pagadas y Pendientes. (¡NO FILTRAR!).
 *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
 
-**F. Previsión Semanal (Forecast)** (Si usáis el Excel interno)
-*   **Qué es:** El Excel manual donde ajustáis cobros probables por semana.
-*   **Por qué:** Conecta la lógica automática con vuestra intuición humana.
+**D. Forecast y Compromisos (Excel Semanal)**
+*   **Qué es:** Vuestro Excel de previsión manual.
+*   **Añadir Pestaña "COMPROMISOS":** Pedidos aceptados o Confirming que aún NO tienen factura pero que "salen fijo".
+    *   *Campos:* Obra, Proveedor, Importe, Fecha Pago prevista, Estado (Pedido/Confirming).
+*   **Pestaña "PREVISIÓN COBROS":** Importante marcar la **PROBABILIDAD** (Alta/Media/Baja) para que el sistema calcule escenarios (Pesimista/Optimista).
 *   **Nombre:** `TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx`
 
 #### 📁 CARPETA 02: RENTABILIDAD (El Semáforo)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 02_Rentabilidad`
 
-**G. Informe de Análisis Económico (Excel)**
-*   **Qué es:** La salud de nuestras obras por Capítulo.
+**E. Informe de Análisis Económico (Excel)**
 *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
 
 #### 📁 CARPETA 03: ESTRUCTURA (El Dinero Invisible)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 03_Estructura`
 
-**H. Previsión de Pagos Fijos (Catálogo)**
-*   **Qué es:** Impuestos, Nóminas, Deuda, Seguros (Recurrentes).
+**F. Previsión de Pagos Fijos (Catálogo Detallado)**
+*   **Qué es:** El calendario de pagos de estructura.
+*   **Mejora Clave:** Añadir columna **CATEGORÍA** ("Inaplazable" vs "Aplazable").
+    *   *Ej:* Nóminas/Seguros -> Inaplazable. Alquiler/Software -> Aplazable (en caso de guerra).
 *   **Nombre:** `FINANZAS_PagosFijos_2026.xlsx`
+
+#### 📁 CARPETA 04: PATRIMONIO (La Hucha)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 04_Patrimonio`
+
+**G. Cuadro de Inversiones**
+*   **Nombre:** `FINANZAS_Inversiones.xlsx`
 
 ---
 
 ### 3. CHECKLIST DE CALIDAD (30 Segundos antes de cerrar)
-✅ **Cut-off:** Los archivos incluyen datos hasta el cierre de la semana (Viernes/Domingo).
-✅ **Formato:** Los nombres de archivo tienen la fecha correcta (YYYY-MM-DD).
+✅ **Cut-off:** Datos hasta cierre de semana (Domingo 23:59).
 ✅ **Sin Filtros:** Vencimientos incluye las FACTURAS PAGADAS.
-✅ **Completo:** Están cargados los extractos de TODAS las cuentas bancarias operativas.
+✅ **Compromisos:** ¿Has puesto los Confirming/Pedidos gordos que no tienen factura aún?
+✅ **Maestros:** ¿Hay obras o clientes nuevos? (Si sí, actualizar Carpeta 00).
 
 ---
 
-### 4. ANEXO TÉCNICO (Configuración Inicial ERP)
-*Si Informática te pregunta qué columnas sacar:*
-
+### 4. ANEXO TÉCNICO
 **Para Vencimientos:**
-*   **FILTRO:** Estado = Todos (Cobrados, Pagados, Pendientes, Devueltos).
-*   **COLUMNAS CLAVE:**
-    *   `ID Documento Único` (Nº Factura + Serie).
-    *   `Tipo Documento` (Factura vs Abono) <- Vital para diferenciar cobros de devoluciones.
-    *   `Fecha Emisión` y `Fecha Vencimiento`.
-    *   `Importe Total` y `Importe Pendiente`.
+*   Identificador Único (Factura + Serie).
+*   Tipo Documento (Factura / Abono).
 
 **Para Análisis Económico:**
-*   **AGRUPACIÓN:** Debe existir `ID Proyecto` + `ID Capítulo/Partida` (No solo el nombre, el código es vital para agrupar).
+*   Agrupación por ID Proyecto + ID Capítulo.
