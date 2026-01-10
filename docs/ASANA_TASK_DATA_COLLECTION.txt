@@ -2,64 +2,57 @@
 **Asignada a:** Carolina
 **Frecuencia:** Semanal (Viernes o Lunes)
 
-**Objetivo:** Alimentar el Meraki Control Panel con los datos de Tesorería, Rentabilidad y Patrimonio.
-**Instrucción Clave:** Necesitamos estos archivos Excel SIN manipular.
+**Objetivo:** Alimentar el Meraki Control Panel.
 
 ---
 
-### A. Tesorería (Cash Flow)
-1.  **Informe de Vencimientos (Listado de Facturas)**
-    *   **Fuente:** SQL Obras > Informes > Tesorería > Vencimientos.
-    *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/01_Tesorería/`
-    *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
-    *   *Nota: Debe incluir Facturas de Cliente (Cobros) y Proveedores (Pagos).*
+### 📂 ESTRUCTURA DE CARPETAS (La "Buzón de Entrada")
+Hemos creado 4 carpetas en Dropbox/Drive para que dejes los archivos. Por favor, crea esta estructura si no existe:
 
-2.  **Pool Bancario (FOTO INICIAL / CAMBIOS)**
-    *   Listado de cuentas corrientes con **Saldo a Fecha de Hoy**.
-    *   Límite de Pólizas actualizado.
-    *   **Nombre:** `FINANZAS_PoolBancario.xlsx`
-
-### B. Rentabilidad (Operaciones)
-3.  **Informe de Análisis Económico (Nivel Capítulo)**
-    *   **Fuente:** SQL Obras > Informes > Obras > Análisis Económico.
-    *   **Nivel de Detalle:** RESUMIDO POR CAPÍTULO.
-    *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/02_Rentabilidad/`
-    *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
-
-### C. Pagos No Facturados (Fijos)
-4.  **Hoja de Previsión de Pagos Fijos (Mensual)**
-    *   Excel manual con 3 pestañas:
-        *   **Impuestos:** IVA, IRPF, Sociedades (Fecha y Monto estimado).
-        *   **Deuda:** Préstamos y Leasing (Cuota mensual + Día de cargo).
-        *   **Nóminas:** Total coste empresa mensual estimado.
-    *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/00_Estructura/`
-
-### D. Patrimonio (Inversiones y Ahorro)
-5.  **Cuadro de Inversiones (Mensual)**
-    *   Excel simple con Activos Financieros (Fondos, Plazos Fijos).
-    *   **Datos:** Producto, Saldo Actual, Rentabilidad %, Disponibilidad.
-    *   **Ruta Dropbox:** `Dropbox/Meraki/00_Data_Inputs/Finanzas/03_Patrimonio/`
+Raíz: `Meraki_Control_Panel / INPUTS`
+> 📁 **01_Tesoreria**   (Para Vencimientos y Bancos)
+> 📁 **02_Rentabilidad** (Para Análisis de Obras)
+> 📁 **03_Estructura**   (Para Gastos Generales, Impuestos y Nóminas)
+> 📁 **04_Patrimonio**   (Para Inversiones)
 
 ---
 
-## 🔧 ANEXO TÉCNICO: Configuración de Columnas (Para TI/ERP)
+### A. Tesorería (Caja)
+**Ruta:** `.../INPUTS/01_Tesoreria/`
 
-**1. Para el Informe de Vencimientos:**
-Asegurar que salen visibles:
-*   `Fecha Vencimiento` (CRÍTICO)
-*   `Pagador/Cliente` o `Proveedor`
-*   `Importe`
-*   `Pendiente de Cobro/Pago`
-*   `Código de Obra` (Si disponible)
+1.  **Informe de Vencimientos**
+    *   **Archivo:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
+    *   **Nota:** Asegurar que salen TODAS las facturas (Obras + Gastos Generales).
 
-**2. Para el Informe de Análisis Económico:**
-Asegurar que salen visibles:
-*   `Obra / Proyecto`
-*   `Capítulo` (Demolición, Estructura, etc.)
-*   `Coste Previsto` (Presupuesto)
-*   `Coste Producido` (Real)
-*   `% Desviación`
+2.  **Pool Bancario** (Solo cambios)
+    *   **Archivo:** `FINANZAS_PoolBancario.xlsx`
+
+### B. Rentabilidad (Obras)
+**Ruta:** `.../INPUTS/02_Rentabilidad/`
+
+3.  **Informe de Análisis Económico**
+    *   **Archivo:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
+
+### C. Estructura y Gastos Generales (Pagos Fijos)
+**Ruta:** `.../INPUTS/03_Estructura/`
+
+4.  **Hoja de Previsión de Pagos Fijos**
+    *   **Archivo:** `FINANZAS_PagosFijos_2026.xlsx`
+    *   Excel manual con 4 pestañas:
+        *   **Impuestos:** IVA, IRPF, Sociedades.
+        *   **Deuda:** Préstamos y Leasing.
+        *   **Nóminas:** Total coste empresa.
+        *   **Gastos Generales:** Alquileres, Suministros (Luz/Agua/Teléfono), Seguros, Software, Asesoria.
+
+### D. Patrimonio
+**Ruta:** `.../INPUTS/04_Patrimonio/`
+
+5.  **Cuadro de Inversiones**
+    *   **Archivo:** `FINANZAS_Inversiones.xlsx`
 
 ---
-**Nota Final:**
-Una vez subidos a Dropbox, marca esta tarea como completada. El sistema procesará los archivos esa misma noche.
+
+## 🔧 ANEXO: Configuración de Columnas ERP
+
+**1. Vencimientos:** Visible: `Fecha Vto`, `Cliente/Proveedor`, `Importe`, `Obra`.
+**2. Análisis Económico:** Visible: `Proyecto`, `Capítulo`, `Coste Previsto`, `Coste Producido`, `% Desviación`.
