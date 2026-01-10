@@ -10,7 +10,7 @@ Tu misión aquí no es "enviar excels", sino **alimentar la inteligencia financi
 
 *   **Causa:** Si tú subes los ficheros Vencimientos y Bancos el viernes...
 *   **Efecto:** La Dirección sabe el lunes exactamente cuánto dinero hay y podemos **conciliar** automáticamente (casar facturas con movimientos del banco).
-*   **Riesgo:** Si solo envías las facturas "pendientes", el sistema no sabrá qué facturas ya se han cobrado/pagado y no podrá puntearlas con el banco.
+*   **Riesgo:** Si falta el extracto bancario o las facturas pagadas, el sistema no puede puntear nada y la conciliación falla.
 
 **Tu Regla de Oro:**
 "Dato crudo, dato bueno". No maquilles ni resumas los Excels del ERP. El sistema automático prefiere leer el listado entero.
@@ -19,59 +19,68 @@ Tu misión aquí no es "enviar excels", sino **alimentar la inteligencia financi
 
 ### 2. INSTRUCCIONES DE EJECUCIÓN (Tu Rutina)
 
-Hemos creado un "Buzón Digital" en Dropbox/Drive con 4 carpetas.
+Hemos creado un "Buzón Digital" en Dropbox/Drive con carpetas numeradas.
+
+#### 📁 CARPETA 00: MAESTROS (Solo si hay cambios)
+**Ruta:** `Meraki_Control_Panel / INPUTS / 00_Maestros`
+*   **A. Listado de Proyectos:** Excel con todas las obras (ID Obra, Nombre, Estado).
+*   **B. Listado de Terceros:** Clientes y Proveedores (ID, Nombre, NIF).
+*   **C. Cuentas Bancarias:** IBANs y Alias.
+*   *Por qué:* Para que si entra un cliente nuevo, el sistema sepa quién es.
 
 #### 📁 CARPETA 01: TESORERÍA (El Oxígeno)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 01_Tesoreria`
 
-**A. Informe de Vencimientos (Listado COMPLETO)**
+**D. Extracto Bancario (RAW) - CRÍTICO**
+*   **Qué es:** Exportación de movimientos (extracto puro) de cada banco.
+*   **Por qué:** Es la "verdad" con la que se puntean las facturas. Sin esto, no hay conciliación.
+*   **Nombre:** `BANCOS_Movimientos_Santander_YYYY-MM-DD.csv` (o .xlsx).
+*   **Corte:** Hasta el Domingo 23:59 anterior.
+
+**E. Informe de Vencimientos (Listado COMPLETO)**
 *   **Qué es:** El pasado (lo cobrado/pagado) Y el futuro (lo pendiente).
-*   **Por qué:** Tiene una doble función:
-    1.  **Conciliación:** Casar el pago del banco de ayer con su factura (por eso necesitamos las "Pagadas/Cobradas").
-    2.  **Forecast:** Prever si tendremos dinero el mes que viene (por eso necesitamos las "Pendientes").
-*   **Cuidado:** **NO FILTRES solo "Pendientes".** Saca el listado completo del año en curso (o fecha amplia).
+*   **Cuidado:** **NO FILTRES solo "Pendientes".** Saca el listado completo (Cobrados + Pagados + Pendientes).
 *   **Nombre:** `TESORERIA_Vencimientos_YYYY-MM-DD.xlsx`
 
-**B. Pool Bancario (Excel)** (Solo primera vez o cambios)
-*   **Qué es:** El presente. Saldos a día de hoy y Límites de Póliza.
-*   **Nombre:** `FINANZAS_PoolBancario.xlsx`
+**F. Previsión Semanal (Forecast)** (Si usáis el Excel interno)
+*   **Qué es:** El Excel manual donde ajustáis cobros probables por semana.
+*   **Por qué:** Conecta la lógica automática con vuestra intuición humana.
+*   **Nombre:** `TESORERIA_ForecastSemanal_YYYY-MM-DD.xlsx`
 
 #### 📁 CARPETA 02: RENTABILIDAD (El Semáforo)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 02_Rentabilidad`
 
-**C. Informe de Análisis Económico (Excel)**
-*   **Qué es:** La salud de nuestras obras.
-*   **Por qué:** Para ver si ganamos o perdemos dinero "en caliente".
-*   **Detalle:** Nivel "Capítulo".
+**G. Informe de Análisis Económico (Excel)**
+*   **Qué es:** La salud de nuestras obras por Capítulo.
 *   **Nombre:** `OBRAS_AnalisisCapitulos_YYYY-MM-DD.xlsx`
 
 #### 📁 CARPETA 03: ESTRUCTURA (El Dinero Invisible)
 **Ruta:** `Meraki_Control_Panel / INPUTS / 03_Estructura`
 
-**D. Previsión de Pagos Fijos (Excel Manual)**
-*   **Qué es:** Todo lo que NO sale en facturas (Impuestos, Nóminas, Deuda, Seguros).
-*   **Por qué:** Para evitar sustos de caja por pagos domiciliados.
+**H. Previsión de Pagos Fijos (Catálogo)**
+*   **Qué es:** Impuestos, Nóminas, Deuda, Seguros (Recurrentes).
 *   **Nombre:** `FINANZAS_PagosFijos_2026.xlsx`
-
-#### 📁 CARPETA 04: PATRIMONIO (La Hucha)
-**Ruta:** `Meraki_Control_Panel / INPUTS / 04_Patrimonio`
-
-**E. Cuadro de Inversiones (Excel Manual)**
-*   **Qué es:** Plazos fijos, fondos, cuentas de ahorro.
-*   **Por qué:** Para ver crecer el patrimonio de la empresa.
-*   **Nombre:** `FINANZAS_Inversiones.xlsx`
 
 ---
 
-### 3. ANEXO TÉCNICO (Configuración Inicial ERP)
-*Si Informática te pregunta qué columnas sacar, dales esta chuleta:*
+### 3. CHECKLIST DE CALIDAD (30 Segundos antes de cerrar)
+✅ **Cut-off:** Los archivos incluyen datos hasta el cierre de la semana (Viernes/Domingo).
+✅ **Formato:** Los nombres de archivo tienen la fecha correcta (YYYY-MM-DD).
+✅ **Sin Filtros:** Vencimientos incluye las FACTURAS PAGADAS.
+✅ **Completo:** Están cargados los extractos de TODAS las cuentas bancarias operativas.
+
+---
+
+### 4. ANEXO TÉCNICO (Configuración Inicial ERP)
+*Si Informática te pregunta qué columnas sacar:*
 
 **Para Vencimientos:**
 *   **FILTRO:** Estado = Todos (Cobrados, Pagados, Pendientes, Devueltos).
-*   IMPRESCINDIBLE: `Fecha Emisión` y `Fecha Vencimiento`.
-*   IMPRESCINDIBLE: `Importe Total` y `Importe Pendiente` (Si está pagado, pendiente será 0, y eso es correcto).
-*   Necesario: `Cliente/Proveedor`, `Nº Factura`, `Cód. Obra`.
+*   **COLUMNAS CLAVE:**
+    *   `ID Documento Único` (Nº Factura + Serie).
+    *   `Tipo Documento` (Factura vs Abono) <- Vital para diferenciar cobros de devoluciones.
+    *   `Fecha Emisión` y `Fecha Vencimiento`.
+    *   `Importe Total` y `Importe Pendiente`.
 
 **Para Análisis Económico:**
-*   IMPRESCINDIBLE: `Coste Previsto` vs `Coste Producido`.
-*   IMPRESCINDIBLE: `% Desviación`.
+*   **AGRUPACIÓN:** Debe existir `ID Proyecto` + `ID Capítulo/Partida` (No solo el nombre, el código es vital para agrupar).
